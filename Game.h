@@ -1,3 +1,5 @@
+#pragma once
+
 #include <string>
 #include <SFML/Graphics.hpp>
 #include <time.h>
@@ -10,18 +12,14 @@ using namespace sf;
 
 class Game
 {
-    bool up = false;
-    bool down = false;
-    bool left = false;
-    bool right = false;
-
 public:
+    bool up, down, left, right;
     Game();
     void run();
 
 private:
-    sf::RenderWindow app;
-    sf::Sprite background;
+    RenderWindow app;
+    Sprite background;
     static const int WIDTH = 1050;
     static const int HEIGHT = 1150;
     static const int gameSpeed = 1000;
