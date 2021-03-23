@@ -14,30 +14,33 @@ void Game::run()
     backgroundTexture.loadFromFile("images/background.jpg");
     background.setTexture(backgroundTexture);
 
-    // Texture explosionTexture;
-    // explosionTexture.loadFromFile("images/explosions/type_B.png");
-    // Animation explosion(explosionTexture, 0, 0, 192, 192, 64, 0.5);
-
-    Texture spaceshipTexture;
-    spaceshipTexture.loadFromFile("images/spaceship.png");
-    Animation sPlayer(spaceshipTexture, 40, 0, 40, 40, 1, 0);
+    // Set spaceship textures.
+    vector<Texture> textures;
+    for (int i = 0; i < 2; i++)
+    {
+        Texture texture;
+        texture.loadFromFile("images/spaceship/spaceship_straight" +
+                             to_string((i + 1)) + ".png");
+        textures.push_back(texture);
+    }
+    Animation spaceshipAnim(textures);
 
     Actor *actor = new Actor();
-    actor->settings(sPlayer, 200, 200, 0, 20);
+    actor->settings(spaceshipAnim, (WIDTH + 20) / 2, ((HEIGHT + 20) / 4) * 3);
 
     while (app.isOpen())
     {
         sf::Event event;
         while (app.pollEvent(event))
         {
-            if (event.type == sf::Event::Closed)
+            if (event.type == Event::Closed)
                 app.close();
+            actor->keyPressed();
         }
 
         app.draw(background);
-        // app.draw(explosion.sprite);
         actor->draw(app);
-        // app.draw(actor->anim.sprite);
+        actor->update();
         app.display();
     }
 }

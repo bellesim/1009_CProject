@@ -1,28 +1,66 @@
 #include "Actor.h"
+#include "Game.h"
 
 Actor::Actor()
 {
-    life = 1;
+    hitPoints = 3;
+    speed = 10;
 }
 
-void Actor::settings(Animation &a, int x, int y, float angle, int radius)
+void Actor::settings(Animation &a, int x, int y)
 {
     this->animation = a;
     this->x = x;
     this->y = y;
-    this->angle = angle;
-    this->radius = radius;
 }
 
 void Actor::draw(RenderWindow &app)
 {
-    animation.sprite.setPosition(x, y);
-    animation.sprite.setRotation(angle + 90);
-    app.draw(this->animation.sprite);
-
-    CircleShape circle(radius);
-    circle.setFillColor(Color(255, 0, 0, 170));
-    circle.setPosition(x, y);
-    circle.setOrigin(radius, radius);
-    //app.draw(circle);
+    animation.setSpritePosition(x, y);
+    app.draw(this->animation.getSprite());
+    animation.update();
 }
+
+void Actor::keyPressed()
+{
+    if (Keyboard::isKeyPressed(Keyboard::W))
+        up = true;
+    else
+        up = false;
+
+    if (Keyboard::isKeyPressed(Keyboard::S))
+        down = true;
+    else
+        down = false;
+
+    if (Keyboard::isKeyPressed(Keyboard::A))
+        left = true;
+    else
+        left = false;
+
+    if (Keyboard::isKeyPressed(Keyboard::D))
+        right = true;
+    else
+        right = false;
+}
+
+void Actor::update()
+{
+    if (up)
+        y -= speed;
+    if (down)
+        y += speed;
+    if (left)
+        x -= speed;
+    if (right)
+        x += speed;
+
+    if (x > 1050)
+        x = 0;
+    if (x < 0)
+        x = 1050;
+    if (y > 1150)
+        y = 0;
+    if (y < 0)
+        y = 1150;
+};

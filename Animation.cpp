@@ -2,29 +2,31 @@
 
 Animation::Animation() {}
 
-Animation::Animation(Texture t, int x, int y, int w, int h, int count, float speed)
+Animation::Animation(vector<Texture> &textures)
 {
-    Frame = 0;
+    this->textures = textures;
+    currentFrame = 0;
 
-    for (int i = 0; i < count; i++)
-        frames.push_back(IntRect(x + i * w, y, w, h));
-
-    sprite.setTexture(t);
-    sprite.setOrigin(w / 2, h / 2);
-    sprite.setTextureRect(frames[0]);
+    sprite.setTexture(textures[currentFrame]);
+    sprite.setScale(2, 2);
 }
 
 void Animation::update()
 {
-    Frame += speed;
-    int n = frames.size();
-    if (Frame >= n)
-        Frame -= n;
-    if (n > 0)
-        sprite.setTextureRect(frames[int(Frame)]);
+    sprite.setTexture(textures[currentFrame]);
+
+    if (currentFrame >= textures.size() - 1)
+        currentFrame = 0;
+    else
+        currentFrame++;
 }
 
-bool Animation::isEnd()
+void Animation::setSpritePosition(int x, int y)
 {
-    return Frame + speed >= frames.size();
+    sprite.setPosition(x, y);
+}
+
+Sprite Animation::getSprite()
+{
+    return sprite;
 }

@@ -6,16 +6,15 @@ using namespace sf;
 
 class Animation
 {
-public:
-    float Frame, speed;
+private:
     Sprite sprite;
-    vector<IntRect> frames;
+    int currentFrame;
+    vector<Texture> textures;
 
+public:
     Animation();
-
-    Animation(Texture t, int x, int y, int w, int h, int count, float Speed);
-
+    Animation(vector<Texture> &textures);
     void update();
-
-    bool isEnd();
+    void setSpritePosition(int x, int y);
+    Sprite getSprite();
 };

@@ -7,12 +7,14 @@ using namespace sf;
 class Actor
 {
 public:
-    float x, y, dx, dy, radius, angle;
-    bool life;
+    int x, y, speed, hitPoints;
+    bool left, right, up, down;
     string name;
     Animation animation;
     Actor();
     ~Actor();
-    void settings(Animation &a, int x, int y, float angle, int radius);
+    void settings(Animation &a, int x, int y);
     void draw(RenderWindow &app);
+    void keyPressed();
+    virtual void update();
 };
