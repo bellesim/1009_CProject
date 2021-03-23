@@ -6,15 +6,18 @@ using namespace sf;
 
 class Actor
 {
-public:
-    int x, y, speed, hitPoints;
+protected:
+    int speed, hitPoints;
     bool left, right, up, down;
-    string name;
+    int x, y, width, height;
+
+private:
     Animation animation;
+
+public:
     Actor();
-    ~Actor();
     void settings(Animation &a, int x, int y);
     void draw(RenderWindow &app);
     void keyPressed();
-    virtual void update();
+    void update();
 };

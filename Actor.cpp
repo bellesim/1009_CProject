@@ -3,7 +3,7 @@
 
 Actor::Actor()
 {
-    hitPoints = 3;
+    hitPoints = 1;
     speed = 10;
 }
 
@@ -16,6 +16,7 @@ void Actor::settings(Animation &a, int x, int y)
 
 void Actor::draw(RenderWindow &app)
 {
+    printf("\ndrawing from actor");
     animation.setSpritePosition(x, y);
     app.draw(this->animation.getSprite());
     animation.update();
