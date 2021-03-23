@@ -39,7 +39,6 @@ void Spaceship::draw(RenderWindow &app)
     }
     else
     {
-        printf("\ndrawing from spaceship");
         Actor::draw(app);
     }
 }

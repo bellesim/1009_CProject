@@ -20,4 +20,5 @@ public:
     void draw(RenderWindow &app);
     void keyPressed();
     void update();
+    int getHitPoints();
 };

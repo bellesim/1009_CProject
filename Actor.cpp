@@ -16,7 +16,6 @@ void Actor::settings(Animation &a, int x, int y)
 
 void Actor::draw(RenderWindow &app)
 {
-    printf("\ndrawing from actor");
     animation.setSpritePosition(x, y);
     app.draw(this->animation.getSprite());
     animation.update();
@@ -65,3 +64,8 @@ void Actor::update()
     if (y < 0)
         y = 1150;
 };
+
+int Actor::getHitPoints()
+{
+    return hitPoints;
+}

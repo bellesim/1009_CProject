@@ -2,6 +2,12 @@
 #include "Animation.h"
 #include "Actor.h"
 #include "Spaceship.h"
+#include "AssetManager.h"
+
+// WINDOWS
+// ??
+// MAC
+// g++ main.cpp Animation.cpp Actor.cpp Spaceship.cpp AssetManager.cpp Game.cpp -o game -lsfml-graphics -lsfml-window -lsfml-system
 
 Game::Game() : app(VideoMode(WIDTH, HEIGHT), "Ace Combat", Style::Default)
 {
@@ -10,59 +16,40 @@ Game::Game() : app(VideoMode(WIDTH, HEIGHT), "Ace Combat", Style::Default)
 
 void Game::run()
 {
+    AssetManager assetManager;
     // Set background texture.
-    Texture backgroundTexture;
-    backgroundTexture.loadFromFile("images/background.jpg");
+
+    Texture backgroundTexture = assetManager.getBackgroundTexture();
     background.setTexture(backgroundTexture);
 
     // Set spaceship textures.
-    vector<Texture> spaceshipTextures;
-    for (int i = 0; i < 2; i++)
-    {
-        Texture texture;
-        texture.loadFromFile("images/spaceship/spaceship_straight" +
-                             to_string((i + 1)) + ".png");
-        spaceshipTextures.push_back(texture);
-    }
+    vector<Texture> spaceshipTextures = assetManager.getSpaceshipTextures();
     Animation spaceshipAnim(spaceshipTextures);
 
     // Set left spaceship textures.
-    vector<Texture> leftSpaceshipTextures;
-    for (int i = 0; i < 2; i++)
-    {
-        Texture texture;
-        texture.loadFromFile("images/spaceship/spaceship_left" +
-                             to_string((i + 1)) + ".png");
-        leftSpaceshipTextures.push_back(texture);
-    }
+    vector<Texture> leftSpaceshipTextures = assetManager.getSpaceshipLeftTextures();
     Animation leftSpaceshipAnim(leftSpaceshipTextures);
 
     // Set right spaceship textures.
-    vector<Texture> rightSpaceshipTextures;
-    for (int i = 0; i < 2; i++)
-    {
-        Texture texture;
-        texture.loadFromFile("images/spaceship/spaceship_right" +
-                             to_string((i + 1)) + ".png");
-        rightSpaceshipTextures.push_back(texture);
-    }
+    vector<Texture> rightSpaceshipTextures = assetManager.getSpaceshipRightTextures();
     Animation rightSpaceshipAnim(rightSpaceshipTextures);
 
     // Set right explosion textures.
-    vector<Texture> explosionTextures;
-    for (int i = 0; i < 48; i++)
-    {
-        Texture texture;
-        texture.loadFromFile("images/explosions/explosion_1/explosion_" +
-                             to_string((i + 1)) + ".png");
-        explosionTextures.push_back(texture);
-    }
+    vector<Texture> explosionTextures = assetManager.getExplosionTextures();
     Animation explosionAnim(explosionTextures);
 
     // Create Spaceship.
     Spaceship *spaceship = new Spaceship();
     spaceship->settings(spaceshipAnim, leftSpaceshipAnim, rightSpaceshipAnim,
                         (WIDTH + 20) / 2, ((HEIGHT + 20) / 4) * 3);
+
+    // Setting up font for score and life.
+    Text text;
+    Font font = assetManager.getFont();
+    text.setFont(font);
+    text.setCharacterSize(32);
+    text.setFillColor(Color::Red);
+    text.setPosition(30, 30);
 
     while (app.isOpen())
     {
@@ -78,6 +65,11 @@ void Game::run()
         app.draw(background);
         spaceship->draw(app);
         spaceship->update();
+
+        text.setString("Hit points left: " + to_string(spaceship->getHitPoints()) +
+                       "\nScore: " + to_string(spaceship->getScore()));
+        app.draw(text);
+
         app.display();
     }
 }
