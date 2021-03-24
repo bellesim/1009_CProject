@@ -2,13 +2,13 @@
 
 Animation::Animation() {}
 
-Animation::Animation(vector<Texture> &textures)
+Animation::Animation(vector<Texture> &textures, int scale)
 {
     this->textures = textures;
     currentFrame = 0;
 
     sprite.setTexture(textures[currentFrame]);
-    sprite.setScale(2, 2);
+    sprite.setScale(scale, scale);
 }
 
 void Animation::update()

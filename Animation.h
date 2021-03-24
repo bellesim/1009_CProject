@@ -13,7 +13,7 @@ private:
 
 public:
     Animation();
-    Animation(vector<Texture> &textures);
+    Animation(vector<Texture> &textures, int scale = 1);
     void update();
     void setSpritePosition(int x, int y);
     Sprite getSprite();

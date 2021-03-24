@@ -39,7 +39,7 @@ vector<Texture> AssetManager::getSpaceshipRightTextures()
     for (int i = 0; i < 2; i++)
     {
         Texture texture;
-        texture.loadFromFile("images/spaceship/spaceship_left" +
+        texture.loadFromFile("images/spaceship/spaceship_right" +
                              to_string((i + 1)) + ".png");
         rightSpaceshipTextures.push_back(texture);
     }
@@ -57,6 +57,32 @@ vector<Texture> AssetManager::getExplosionTextures()
         explosionTextures.push_back(texture);
     }
     return explosionTextures;
+}
+
+vector<Texture> AssetManager::getProjectileTextures()
+{
+    vector<Texture> projectileTextures;
+    for (int i = 0; i < 16; i++)
+    {
+        Texture texture;
+        texture.loadFromFile("images/bullets/bullet_" +
+                             to_string((i + 1)) + ".png");
+        projectileTextures.push_back(texture);
+    }
+    return projectileTextures;
+}
+
+vector<Texture> AssetManager::getRockTextures()
+{
+    vector<Texture> rockTextures;
+    for (int i = 0; i < 16; i++)
+    {
+        Texture texture;
+        texture.loadFromFile("images/rocks/rock_" +
+                             to_string((i + 1)) + ".png");
+        rockTextures.push_back(texture);
+    }
+    return rockTextures;
 }
 
 Font AssetManager::getFont()

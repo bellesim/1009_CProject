@@ -46,6 +46,7 @@ void Actor::keyPressed()
 
 void Actor::update()
 {
+    printf("actor update\n");
     if (up)
         y -= speed;
     if (down)
@@ -68,4 +69,14 @@ void Actor::update()
 int Actor::getHitPoints()
 {
     return hitPoints;
+}
+
+int Actor::getX()
+{
+    return x;
+}
+
+int Actor::getY()
+{
+    return y;
 }

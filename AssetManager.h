@@ -15,5 +15,7 @@ public:
     vector<Texture> getSpaceshipLeftTextures();
     vector<Texture> getSpaceshipRightTextures();
     vector<Texture> getExplosionTextures();
+    vector<Texture> getProjectileTextures();
+    vector<Texture> getRockTextures();
     Font getFont();
 };

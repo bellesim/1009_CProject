@@ -16,9 +16,11 @@ private:
 
 public:
     Actor();
-    void settings(Animation &a, int x, int y);
+    virtual void settings(Animation &a, int x, int y);
     void draw(RenderWindow &app);
     void keyPressed();
     void update();
     int getHitPoints();
+    int getX();
+    int getY();
 };
