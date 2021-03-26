@@ -17,12 +17,17 @@ void MainMenu::run() {
 
     while (main.isOpen())
     {
+        sf::Event event;
+        while (main.pollEvent(event))
+        {
+            if (event.type == Event::Closed)
+                main.close();
+        }
 
         //main.draw(background);
 
         text.setString("Hit points left: ");
         main.draw(text);
-
         main.display();
     }
 }
