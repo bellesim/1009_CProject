@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Animation.h"
+#include "Enums.h"
 using namespace std;
 using namespace sf;
 

@@ -4,6 +4,7 @@
 #include "Spaceship.h"
 #include "Projectile.h"
 #include "AssetManager.h"
+#include "Enums.h"
 
 // WINDOWS
 // ??
