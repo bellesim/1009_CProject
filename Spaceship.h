@@ -10,6 +10,8 @@ private:
     Animation rightAnimation;
     int reloadCounter;
     int currentReloadCounter;
+    int blinkCounter;
+    int blinkTime;
 
 public:
     Spaceship();
@@ -21,4 +23,6 @@ public:
     void settings(Animation &animation, Animation &leftAnimation, Animation &rightAnimation,
                   int x, int y);
     void draw(RenderWindow &app);
+    void deductHitPoint(int hit);
+    int getHitPoints();
 };

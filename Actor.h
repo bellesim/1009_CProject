@@ -11,6 +11,7 @@ protected:
     int speed, hitPoints;
     bool left, right, up, down;
     int x, y, width, height;
+    Status currentStatus;
 
 private:
     Animation animation;
@@ -24,4 +25,7 @@ public:
     int getHitPoints();
     int getX();
     int getY();
+    void deductHitPoint(int hit);
+    Status getCurrentStatus();
+    void setCurrentStatus(Status currentStatus);
 };

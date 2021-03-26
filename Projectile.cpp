@@ -21,7 +21,6 @@ void Projectile::settings(Animation &a, Actor &actor)
 
 void Projectile::update()
 {
-    printf("projectile update\n");
     if (up)
         y -= speed;
     if (down)
@@ -33,7 +32,6 @@ void Projectile::update()
 
     if (x > 1050 || x < 0 || y > 1150 || y < 0)
     {
-        printf("hi");
         hitPoints = 0;
     }
 }
