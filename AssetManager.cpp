@@ -46,6 +46,19 @@ vector<Texture> AssetManager::getSpaceshipRightTextures()
     return rightSpaceshipTextures;
 }
 
+vector<Texture> AssetManager::getEnemyTextures()
+{
+    vector<Texture> enemyTextures;
+    for (int i = 0; i < 2; i++)
+    {
+        Texture texture;
+        texture.loadFromFile("images/enemy/enemy_" +
+                             to_string((i + 1)) + ".png");
+        enemyTextures.push_back(texture);
+    }
+    return enemyTextures;
+}
+
 vector<Texture> AssetManager::getExplosionTextures()
 {
     vector<Texture> explosionTextures;
@@ -59,13 +72,26 @@ vector<Texture> AssetManager::getExplosionTextures()
     return explosionTextures;
 }
 
-vector<Texture> AssetManager::getProjectileTextures()
+vector<Texture> AssetManager::getSpaceshipProjectileTextures()
 {
     vector<Texture> projectileTextures;
     for (int i = 0; i < 16; i++)
     {
         Texture texture;
-        texture.loadFromFile("images/bullets/bullet_" +
+        texture.loadFromFile("images/bullets/spaceship/bullet_" +
+                             to_string((i + 1)) + ".png");
+        projectileTextures.push_back(texture);
+    }
+    return projectileTextures;
+}
+
+vector<Texture> AssetManager::getEnemyProjectileTextures()
+{
+    vector<Texture> projectileTextures;
+    for (int i = 0; i < 2; i++)
+    {
+        Texture texture;
+        texture.loadFromFile("images/bullets/enemy/sphere_" +
                              to_string((i + 1)) + ".png");
         projectileTextures.push_back(texture);
     }

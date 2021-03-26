@@ -1,15 +1,17 @@
 #pragma once
 
 #include "Animation.h"
+#include "Position.h"
 using namespace std;
 using namespace sf;
 
 class Actor
 {
 protected:
+    Position position;
     int speed, hitPoints;
     bool left, right, up, down;
-    int x, y, width, height;
+    int width, height;
 
 private:
     Animation animation;
@@ -21,6 +23,5 @@ public:
     void keyPressed();
     void update();
     int getHitPoints();
-    int getX();
-    int getY();
+    Position getPosition();
 };

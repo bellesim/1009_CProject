@@ -21,9 +21,9 @@ void Animation::update()
         currentFrame++;
 }
 
-void Animation::setSpritePosition(int x, int y)
+void Animation::setSpritePosition(Position position)
 {
-    sprite.setPosition(x, y);
+    sprite.setPosition(position.getX(), position.getY());
 }
 
 Sprite Animation::getSprite()

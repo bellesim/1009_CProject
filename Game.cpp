@@ -3,13 +3,14 @@
 #include "Actor.h"
 #include "Spaceship.h"
 #include "Projectile.h"
+#include "Enemy.h"
 #include "AssetManager.h"
 
 // WINDOWS
 // ??
 // MAC
-// g++ main.cpp Animation.cpp Actor.cpp Spaceship.cpp AssetManager.cpp Game.cpp -o game -lsfml-graphics -lsfml-window -lsfml-system
-// g++ main.cpp Animation.cpp Actor.cpp Projectile.cpp Spaceship.cpp AssetManager.cpp Game.cpp -o game -lsfml-graphics -lsfml-window -lsfml-system
+// g++ main.cpp Animation.cpp Position.cpp Actor.cpp Spaceship.cpp AssetManager.cpp Game.cpp -o game -lsfml-graphics -lsfml-window -lsfml-system
+// g++ main.cpp Animation.cpp Position.cpp Actor.cpp Projectile.cpp Enemy.cpp Spaceship.cpp AssetManager.cpp Game.cpp -o game -lsfml-graphics -lsfml-window -lsfml-system
 Game::Game() : app(VideoMode(WIDTH, HEIGHT), "Ace Combat", Style::Default)
 {
     app.setFramerateLimit(60);
@@ -18,8 +19,8 @@ Game::Game() : app(VideoMode(WIDTH, HEIGHT), "Ace Combat", Style::Default)
 void Game::run()
 {
     AssetManager assetManager;
-    // Set background texture.
 
+    // Set background texture.
     Texture backgroundTexture = assetManager.getBackgroundTexture();
     background.setTexture(backgroundTexture);
 
@@ -39,18 +40,30 @@ void Game::run()
     vector<Texture> explosionTextures = assetManager.getExplosionTextures();
     Animation explosionAnim(explosionTextures);
 
-    // Set projectile textures.
-    vector<Texture> projectileTextures = assetManager.getProjectileTextures();
-    Animation projectileAnim(projectileTextures);
+    // Set spaceship projectile textures.
+    vector<Texture> spaceshipProjectileTextures = assetManager.getSpaceshipProjectileTextures();
+    Animation spaceshipProjectileAnim(spaceshipProjectileTextures);
+
+    // Set enemy projectile textures.
+    vector<Texture> enemyProjectileTextures = assetManager.getEnemyProjectileTextures();
+    Animation enemyProjectileAnim(enemyProjectileTextures, 4);
+
+    // Set enemy textures.
+    vector<Texture> enemyTextures = assetManager.getEnemyTextures();
+    Animation enemyAnim(enemyTextures, 4);
 
     // Create Spaceship.
     Spaceship *spaceship = new Spaceship();
     spaceship->settings(spaceshipAnim, leftSpaceshipAnim, rightSpaceshipAnim,
                         (WIDTH + 20) / 2, ((HEIGHT + 20) / 4) * 3);
 
-    // Projectile *projectile = new Projectile(true, false, false, false);
-    // projectile->settings(projectileAnim, (WIDTH + 20) / 2, ((HEIGHT + 20) / 4) * 3);
+    // Create test enemy.
+    Enemy *enemy = new Enemy();
+    enemy->settings(enemyAnim, 200, 200);
+
     vector<Projectile *> projectiles;
+    vector<Enemy *> enemies;
+
     // Setting up font for score and life.
     Text text;
     Font font = assetManager.getFont();
@@ -70,11 +83,13 @@ void Game::run()
             spaceship->keyPressed();
         }
 
-        Projectile *projectile = spaceship->shoot(projectileAnim);
+        Projectile *projectile = spaceship->shoot(spaceshipProjectileAnim);
         if (projectile != NULL)
             projectiles.push_back(projectile);
-        else
-            printf("is null");
+
+        Projectile *enemyProjectile = enemy->shoot(enemyProjectileAnim);
+        if (enemyProjectile != NULL)
+            projectiles.push_back(enemyProjectile);
 
         app.draw(background);
 
@@ -83,16 +98,18 @@ void Game::run()
         {
             (*projectileIt)->draw(app);
             (*projectileIt)->update();
-            printf("%d\n", (*projectileIt)->getHitPoints());
+            // printf("%d\n", (*projectileIt)->getHitPoints());
             if ((*projectileIt)->getHitPoints() <= 0)
             {
-                printf("delete");
                 projectileIt = projectiles.erase(projectileIt);
             }
 
             else
                 ++projectileIt;
         }
+
+        enemy->draw(app);
+        enemy->update();
 
         spaceship->draw(app);
         spaceship->update();

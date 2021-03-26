@@ -10,13 +10,12 @@ Actor::Actor()
 void Actor::settings(Animation &a, int x, int y)
 {
     this->animation = a;
-    this->x = x;
-    this->y = y;
+    this->position = Position(x, y);
 }
 
 void Actor::draw(RenderWindow &app)
 {
-    animation.setSpritePosition(x, y);
+    animation.setSpritePosition(position);
     app.draw(this->animation.getSprite());
     animation.update();
 }
@@ -46,24 +45,23 @@ void Actor::keyPressed()
 
 void Actor::update()
 {
-    printf("actor update\n");
     if (up)
-        y -= speed;
+        position.addToY(-speed);
     if (down)
-        y += speed;
+        position.addToY(speed);
     if (left)
-        x -= speed;
+        position.addToX(-speed);
     if (right)
-        x += speed;
+        position.addToX(speed);
 
-    if (x > 1050)
-        x = 0;
-    if (x < 0)
-        x = 1050;
-    if (y > 1150)
-        y = 0;
-    if (y < 0)
-        y = 1150;
+    if (position.getX() > 1050)
+        position.setX(0);
+    if (position.getX() < 0)
+        position.setX(1050);
+    if (position.getY() > 1150)
+        position.setY(0);
+    if (position.getY() < 0)
+        position.setY(1150);
 };
 
 int Actor::getHitPoints()
@@ -71,12 +69,7 @@ int Actor::getHitPoints()
     return hitPoints;
 }
 
-int Actor::getX()
+Position Actor::getPosition()
 {
-    return x;
-}
-
-int Actor::getY()
-{
-    return y;
+    return position;
 }

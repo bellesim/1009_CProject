@@ -4,36 +4,36 @@ Projectile ::Projectile()
 {
 }
 
-Projectile::Projectile(bool up, bool down, bool left, bool right)
+Projectile::Projectile(bool up, bool down, bool left, bool right, int speed)
 {
     this->up = up;
     this->down = down;
     this->left = left;
     this->right = right;
     hitPoints = 1;
-    speed = 7;
+    this->speed = speed;
 }
 
 void Projectile::settings(Animation &a, Actor &actor)
 {
-    Actor::settings(a, actor.getX() + 20, actor.getY() - 40);
+    // Need to work on as the projectile seem to come from the back of the actor.
+    Actor::settings(a, actor.getPosition().getX() + 20, actor.getPosition().getY() - 5);
 }
 
 void Projectile::update()
 {
-    printf("projectile update\n");
     if (up)
-        y -= speed;
+        position.addToY(-speed);
     if (down)
-        y += speed;
+        position.addToY(speed);
     if (left)
-        x -= speed;
+        position.addToX(-speed);
     if (right)
-        x += speed;
+        position.addToX(speed);
 
-    if (x > 1050 || x < 0 || y > 1150 || y < 0)
+    if (position.getX() > 1050 || position.getX() < 0 ||
+        position.getY() > 1150 || position.getY() < 0)
     {
-        printf("hi");
         hitPoints = 0;
     }
 }

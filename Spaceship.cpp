@@ -30,7 +30,7 @@ Projectile *Spaceship::shoot(Animation projectileAnim)
 {
     if (currentReloadCounter >= reloadCounter)
     {
-        Projectile *projectile = new Projectile(true, false, false, false);
+        Projectile *projectile = new Projectile(true, false, false, false, 12);
         projectile->settings(projectileAnim, *this);
         currentReloadCounter = 0;
         return projectile;
@@ -44,13 +44,13 @@ void Spaceship::draw(RenderWindow &app)
 {
     if (left == true)
     {
-        leftAnimation.setSpritePosition(x, y);
+        leftAnimation.setSpritePosition(position);
         app.draw(leftAnimation.getSprite());
         leftAnimation.update();
     }
     else if (right == true)
     {
-        rightAnimation.setSpritePosition(x, y);
+        rightAnimation.setSpritePosition(position);
         app.draw(rightAnimation.getSprite());
         rightAnimation.update();
     }
