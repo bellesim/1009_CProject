@@ -11,6 +11,7 @@ class AssetManager
 {
 public:
     Texture getBackgroundTexture();
+    Texture getMenuTexture();
     vector<Texture> getSpaceshipTextures();
     vector<Texture> getSpaceshipLeftTextures();
     vector<Texture> getSpaceshipRightTextures();
