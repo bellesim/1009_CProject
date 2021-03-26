@@ -1,5 +1,6 @@
 #include "Spaceship.h"
 #include "Projectile.h"
+#include "Enums.h"
 
 Spaceship::Spaceship()
 {

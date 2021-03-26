@@ -5,6 +5,7 @@
 #include "Projectile.h"
 #include "Enemy.h"
 #include "AssetManager.h"
+#include "Enums.h"
 
 // WINDOWS
 // ??
