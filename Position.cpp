@@ -38,8 +38,38 @@ void Position::addToY(int val)
     this->y += val;
 }
 
-double Position::operator-(Position position)
+vector<char> Position::operator-(Position *position)
 {
-    // calcuate distance between both position.
-    return 1;
+    vector<char> directions;
+    // printsf("hi");
+    printf("\nthis is my x %d", this->getX());
+    printf("\nthis is the other x %d", position->getX());
+    // Move towards the point enemy should go.
+    if (this->getX() < position->getX())
+    {
+        directions.push_back('r');
+        // moveRight();
+    }
+    if (this->getX() > position->getX())
+    {
+        directions.push_back('l');
+        // moveLeft();
+    }
+    if (this->getY() < position->getY())
+    {
+        // moveDown();
+        directions.push_back('d');
+    }
+    if (this->getY() > position->getY())
+    {
+        directions.push_back('u');
+        // moveUp();
+    }
+
+    if (this->getY() == position->getY() && this->getX() == position->getX())
+    {
+        directions.push_back('c');
+    }
+
+    return directions;
 }

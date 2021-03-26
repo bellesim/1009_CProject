@@ -1,5 +1,9 @@
 #pragma once
 
+#include <SFML/Graphics.hpp>
+using namespace std;
+using namespace sf;
+
 class Position
 {
 private:
@@ -14,5 +18,5 @@ public:
     void setY(int y);
     void addToX(int val);
     void addToY(int val);
-    double operator-(Position position);
+    vector<char> operator-(Position *position);
 };

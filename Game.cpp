@@ -3,7 +3,7 @@
 #include "Actor.h"
 #include "Spaceship.h"
 #include "Projectile.h"
-#include "Enemy.h"
+#include "Formation.h"
 #include "AssetManager.h"
 #include "Enums.h"
 
@@ -11,7 +11,8 @@
 // ??
 // MAC
 // g++ main.cpp Animation.cpp Position.cpp Actor.cpp Spaceship.cpp AssetManager.cpp Game.cpp -o game -lsfml-graphics -lsfml-window -lsfml-system
-// g++ main.cpp Animation.cpp Position.cpp Actor.cpp Projectile.cpp Enemy.cpp Spaceship.cpp AssetManager.cpp Game.cpp -o game -lsfml-graphics -lsfml-window -lsfml-system
+// g++ main.cpp Animation.cpp Position.cpp Formation.cpp Actor.cpp Projectile.cpp Enemy.cpp Spaceship.cpp AssetManager.cpp Game.cpp -o game -lsfml-graphics -lsfml-window -lsfml-system
+
 Game::Game() : app(VideoMode(WIDTH, HEIGHT), "Ace Combat", Style::Default)
 {
     app.setFramerateLimit(60);
@@ -47,7 +48,7 @@ void Game::run()
 
     // Set enemy projectile textures.
     vector<Texture> enemyProjectileTextures = assetManager.getEnemyProjectileTextures();
-    Animation enemyProjectileAnim(enemyProjectileTextures, 4);
+    Animation enemyProjectileAnim(enemyProjectileTextures, 3);
 
     // Set enemy textures.
     vector<Texture> enemyTextures = assetManager.getEnemyTextures();
@@ -58,11 +59,8 @@ void Game::run()
     spaceship->settings(spaceshipAnim, leftSpaceshipAnim, rightSpaceshipAnim,
                         (WIDTH + 20) / 2, ((HEIGHT + 20) / 4) * 3);
 
-    // Create test enemy.
-    Enemy *enemy = new Enemy();
-    enemy->settings(enemyAnim, 200, 200);
-
     vector<Projectile *> projectiles;
+
     vector<Enemy *> enemies;
 
     // Setting up font for score and life.
@@ -84,22 +82,46 @@ void Game::run()
             spaceship->keyPressed();
         }
 
+        // Draw background.
+        app.draw(background);
+
+        // Handle create enemy projectile and destroy.
+        vector<Enemy *>::iterator enemyIt = enemies.begin();
+        while (enemyIt != enemies.end())
+        {
+            Projectile *enemyProjectile = (*enemyIt)->shoot(enemyProjectileAnim);
+            if (enemyProjectile != NULL)
+                projectiles.push_back(enemyProjectile);
+
+            // Draw enemy.
+            (*enemyIt)->draw(app);
+            (*enemyIt)->update();
+            // if ((*enemyIt)->getHitPoints() <= 0)
+            // {
+            //     enemyIt = enemies.erase(enemyIt);
+            // }
+            ++enemyIt;
+            // else ++enemyIt;
+        }
+        printf("\n%d", TOTAL_ENEMIES - enemies.size());
+        if (enemies.size() < (TOTAL_ENEMIES / 10) * 8)
+        {
+            vector<Enemy *> newEnemies = Formation::generateRandomFormation((TOTAL_ENEMIES - enemies.size()),
+                                                                            enemyAnim);
+            enemies.insert(enemies.end(), newEnemies.begin(), newEnemies.end());
+        }
+
+        // Handle create spaceship projectile.
         Projectile *projectile = spaceship->shoot(spaceshipProjectileAnim);
         if (projectile != NULL)
             projectiles.push_back(projectile);
 
-        Projectile *enemyProjectile = enemy->shoot(enemyProjectileAnim);
-        if (enemyProjectile != NULL)
-            projectiles.push_back(enemyProjectile);
-
-        app.draw(background);
-
+        // Draw all projectile.
         vector<Projectile *>::iterator projectileIt = projectiles.begin();
         while (projectileIt != projectiles.end())
         {
             (*projectileIt)->draw(app);
             (*projectileIt)->update();
-            // printf("%d\n", (*projectileIt)->getHitPoints());
             if ((*projectileIt)->getHitPoints() <= 0)
             {
                 projectileIt = projectiles.erase(projectileIt);
@@ -109,9 +131,7 @@ void Game::run()
                 ++projectileIt;
         }
 
-        enemy->draw(app);
-        enemy->update();
-
+        // Draw spaceship.
         spaceship->draw(app);
         spaceship->update();
 
