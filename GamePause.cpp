@@ -55,8 +55,7 @@ void GamePause::run()
 
            if (event.type == sf::Event::KeyPressed) {
                 if (event.key.code == Keyboard::Escape) {
-                    if (buttonS.getGlobalBounds().contains(main.mapPixelToCoords(sf::Vector2i(event.mouseButton.x, event.mouseButton.y)))) {
-                        std::cout << "Button pressed CONT" << std::endl;
+                        std::cout << "Escape" << std::endl;
                         GameState gameState = GameState::GAME_PLAY;
                         main.close();
 
