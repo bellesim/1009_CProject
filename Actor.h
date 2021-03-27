@@ -13,6 +13,8 @@ protected:
     int speed, hitPoints;
     bool left, right, up, down;
     int width, height;
+    int x, y;
+    Status currentStatus;
 
 private:
     Animation animation;
@@ -28,4 +30,9 @@ public:
     int getWidth();
     int getHeight();
     bool isCollide(int x ,int y);
+    int getX();
+    int getY();
+    void deductHitPoint(int hit);
+    Status getCurrentStatus();
+    void setCurrentStatus(Status currentStatus);
 };

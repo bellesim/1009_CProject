@@ -91,7 +91,6 @@ void Game::run()
         Projectile *enemyProjectile = enemy->shoot(enemyProjectileAnim);
         if (enemyProjectile != NULL)
             projectiles.push_back(enemyProjectile);
-            
 
         app.draw(background);
 
@@ -102,15 +101,24 @@ void Game::run()
             (*projectileIt)->update();
             // printf("%d\n", (*projectileIt)->getHitPoints());
             Position proj = (*projectileIt)->getPosition();
-            if (spaceship ->isCollide(proj.getX(),proj.getY()))
+            String origin = (*projectileIt)->getOrigin();
+            if (origin == "enemy")
             {
-                printf("PROJECTILE COLLIDED \n");
+                if (spaceship->isCollide(proj.getX(), proj.getY()))
+                {
+                    printf("PROJECTILE COLLIDED \n");
+                    spaceship->deductHitPoint(1);
+                }
+            }
+            else if (origin == "spaceship")
+            {
+                if (enemy->isCollide(proj.getX(), proj.getY()))
+                {
+                    printf("ENEMY PROJECTILE COLLIDED \n");
+                    enemy->deductHitPoint(1);
+                }
             }
 
-            if (enemy ->isCollide(proj.getX(),proj.getY()))
-            {
-                printf("ENEMY PROJECTILE COLLIDED \n");
-            }
             if ((*projectileIt)->getHitPoints() <= 0)
             {
                 projectileIt = projectiles.erase(projectileIt);
@@ -126,13 +134,12 @@ void Game::run()
         spaceship->draw(app);
         spaceship->update();
 
-        // collision detection for enemy
+        //detect collision with enemy
         Position en = enemy->getPosition();
-        if (spaceship ->isCollide(en.getX(),en.getY()))
+        if (spaceship->isCollide(en.getX(), en.getY()))
         {
-            printf("COLLIDED \n");
+            spaceship->deductHitPoint(1);
         }
-        
 
         text.setString("Hit points left: " + to_string(spaceship->getHitPoints()) +
                        "\nScore: " + to_string(spaceship->getScore()));

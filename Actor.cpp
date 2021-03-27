@@ -88,6 +88,22 @@ int Actor::getWidth()
 }
 
 
+void Actor::deductHitPoint(int hit)
+{
+    this->hitPoints -= hit;
+}
+
+Status Actor::getCurrentStatus()
+{
+    return currentStatus;
+}
+
+void Actor::setCurrentStatus(Status currentStatus)
+{
+    this->currentStatus = currentStatus;
+}
+
+
 bool Actor::isCollide(int x,int y){
     if (x >= position.getX() && x <= position.getX()+this->getWidth()){
         if(y >= position.getY() && y <= position.getY()+this->getHeight()){
