@@ -4,12 +4,13 @@
 #include "Spaceship.h"
 #include "Projectile.h"
 #include "AssetManager.h"
+#include "SoundMaster.h"
 
 // WINDOWS
-// ??
+// ???
 // MAC
-// g++ main.cpp Animation.cpp Actor.cpp Spaceship.cpp AssetManager.cpp Game.cpp -o game -lsfml-graphics -lsfml-window -lsfml-system
-// g++ main.cpp Animation.cpp Actor.cpp Projectile.cpp Spaceship.cpp AssetManager.cpp Game.cpp -o game -lsfml-graphics -lsfml-window -lsfml-system
+// g++ main.cpp Animation.cpp Actor.cpp Spaceship.cpp AssetManager.cpp Game.cpp -o game -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
+// g++ main.cpp Animation.cpp Actor.cpp Projectile.cpp Spaceship.cpp AssetManager.cpp Game.cpp -o game -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
 Game::Game() : app(VideoMode(WIDTH, HEIGHT), "Ace Combat", Style::Default)
 {
     app.setFramerateLimit(60);
@@ -19,6 +20,9 @@ void Game::run()
 {
     AssetManager assetManager;
     // Set background texture.
+
+    SoundMaster soundguy;
+    // Load in audio.
 
     Texture backgroundTexture = assetManager.getBackgroundTexture();
     background.setTexture(backgroundTexture);
@@ -59,6 +63,10 @@ void Game::run()
     text.setFillColor(Color::Red);
     text.setPosition(30, 30);
 
+    // audio test section until more events to hook into are available
+    soundguy.playGame();
+    // soundguy.playFire();
+
     while (app.isOpen())
     {
         sf::Event event;
@@ -68,13 +76,15 @@ void Game::run()
                 app.close();
 
             spaceship->keyPressed();
+            // just to test, this thing is noisy af
+            // soundguy.playFire();
         }
 
         Projectile *projectile = spaceship->shoot(projectileAnim);
         if (projectile != NULL)
             projectiles.push_back(projectile);
         else
-            printf("is null");
+            // printf("is null");
 
         app.draw(background);
 
@@ -83,10 +93,10 @@ void Game::run()
         {
             (*projectileIt)->draw(app);
             (*projectileIt)->update();
-            printf("%d\n", (*projectileIt)->getHitPoints());
+            // printf("%d\n", (*projectileIt)->getHitPoints());
             if ((*projectileIt)->getHitPoints() <= 0)
             {
-                printf("delete");
+                // printf("delete");
                 projectileIt = projectiles.erase(projectileIt);
             }
 
