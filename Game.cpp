@@ -91,6 +91,7 @@ void Game::run()
         Projectile *enemyProjectile = enemy->shoot(enemyProjectileAnim);
         if (enemyProjectile != NULL)
             projectiles.push_back(enemyProjectile);
+            
 
         app.draw(background);
 
@@ -100,6 +101,16 @@ void Game::run()
             (*projectileIt)->draw(app);
             (*projectileIt)->update();
             // printf("%d\n", (*projectileIt)->getHitPoints());
+            Position proj = (*projectileIt)->getPosition();
+            if (spaceship ->isCollide(proj.getX(),proj.getY()))
+            {
+                printf("PROJECTILE COLLIDED \n");
+            }
+
+            if (enemy ->isCollide(proj.getX(),proj.getY()))
+            {
+                printf("ENEMY PROJECTILE COLLIDED \n");
+            }
             if ((*projectileIt)->getHitPoints() <= 0)
             {
                 projectileIt = projectiles.erase(projectileIt);
@@ -114,6 +125,14 @@ void Game::run()
 
         spaceship->draw(app);
         spaceship->update();
+
+        // collision detection for enemy
+        Position en = enemy->getPosition();
+        if (spaceship ->isCollide(en.getX(),en.getY()))
+        {
+            printf("COLLIDED \n");
+        }
+        
 
         text.setString("Hit points left: " + to_string(spaceship->getHitPoints()) +
                        "\nScore: " + to_string(spaceship->getScore()));

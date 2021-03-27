@@ -5,6 +5,8 @@ Actor::Actor()
 {
     hitPoints = 1;
     speed = 10;
+    width = 50;
+    height = 50;
 }
 
 void Actor::settings(Animation &a, int x, int y)
@@ -62,6 +64,7 @@ void Actor::update()
         position.setY(0);
     if (position.getY() < 0)
         position.setY(1150);
+
 };
 
 int Actor::getHitPoints()
@@ -72,4 +75,24 @@ int Actor::getHitPoints()
 Position Actor::getPosition()
 {
     return position;
+}
+
+int Actor::getHeight()
+{
+    return height;
+}
+
+int Actor::getWidth()
+{
+    return width;
+}
+
+
+bool Actor::isCollide(int x,int y){
+    if (x >= position.getX() && x <= position.getX()+this->getWidth()){
+        if(y >= position.getY() && y <= position.getY()+this->getHeight()){
+            return true;
+        }  
+    }
+    return false;
 }

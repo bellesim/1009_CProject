@@ -25,4 +25,7 @@ public:
     void update();
     int getHitPoints();
     Position getPosition();
+    int getWidth();
+    int getHeight();
+    bool isCollide(int x ,int y);
 };
