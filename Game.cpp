@@ -20,6 +20,8 @@ Game::Game() : app(VideoMode(WIDTH, HEIGHT), "Ace Combat", Style::Default)
 void Game::run()
 {
     AssetManager assetManager;
+    GameState gameState = GameState::GAME_PLAY;
+
 
     // Set background texture.
     Texture backgroundTexture = assetManager.getBackgroundTexture();
@@ -73,6 +75,8 @@ void Game::run()
     text.setFillColor(Color::Red);
     text.setPosition(30, 30);
 
+
+
     while (app.isOpen())
     {
         sf::Event event;
@@ -80,9 +84,40 @@ void Game::run()
         {
             if (event.type == Event::Closed)
                 app.close();
+            if(event.type == Event::KeyPressed)
+                //pause
+                if(event.key.code == Keyboard::Escape){
+                    if (gameState == GameState::GAME_PLAY || gameState == GameState::GAME_REPLAY)
+                    {
+                        gameState = GameState::GAME_PAUSE;
 
+                    }
+                    else if (gameState == GameState::GAME_PAUSE)
+                    {
+                        gameState = GameState::GAME_PLAY;
+
+                    }
+                }
+            //control the spaceship
             spaceship->keyPressed();
         }
+
+        //main menu
+        if (gameState == GameState::MAIN_MENU) {
+            gameState = GameState::MAIN_MENU;
+            std::cout << "Main Menu" << std::endl;
+        }
+        //high scores
+        else if (gameState == GameState::GAME_HIGHSCORES) {
+            gameState = GameState::GAME_HIGHSCORES;
+            std::cout << "High scores" << std::endl;
+        }
+        //game over
+        else {
+            gameState = GameState::GAME_OVER;
+            std::cout << "Game Over" << std::endl;
+        }
+
 
         Projectile *projectile = spaceship->shoot(spaceshipProjectileAnim);
         if (projectile != NULL)
@@ -118,7 +153,9 @@ void Game::run()
         text.setString("Hit points left: " + to_string(spaceship->getHitPoints()) +
                        "\nScore: " + to_string(spaceship->getScore()));
         app.draw(text);
-
         app.display();
     }
+
+
+
 }
