@@ -8,10 +8,10 @@
 using namespace std;
 using namespace sf;
 
-class MainMenu
+class PauseMenu
 {
 public:
-    MainMenu();
+    PauseMenu();
     void run();
 
 private:
