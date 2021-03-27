@@ -77,10 +77,14 @@ void Game::run()
                     if (gameState == GameState::GAME_PLAY || gameState == GameState::GAME_REPLAY)
                     {
                         gameState = GameState::GAME_PAUSE;
+                        GamePause pause;
+                        pause.run();
                     }
                     else if (gameState == GameState::GAME_PAUSE)
                     {
                         gameState = GameState::GAME_PLAY;
+                        GamePause pause;
+                        pause.run();
                     }
                 }
                 if (event.key.code == Keyboard::Space && gameState != GameState::GAME_PAUSE)
@@ -90,11 +94,16 @@ void Game::run()
             spaceship->keyPressed();
         }
 
-        if (gameState == GameState::MAIN_MENU)
+        if (gameState == GameState::GAME_PAUSE)
         {
-            MainMenu menu;
-            menu.run();
+            GamePause pause;
+            pause.run();
         }
+//        if (gameState == GameState::MAIN_MENU)
+//        {
+//            MainMenu menu;
+//            menu.run();
+//        }
         else if (gameState == GameState::GAME_PLAY || gameState == GameState::GAME_REPLAY)
         {
             if (spaceship->getCurrentStatus() == Status::ALIVE || spaceship->getCurrentStatus() == Status::INVULNERABLE)

@@ -52,11 +52,16 @@ void GamePause::run()
                 main.close();
             }
 
-           if (event.type == sf::Event::MouseButtonPressed) {
-                if (event.mouseButton.button == sf::Mouse::Left) {
+
+           if (event.type == sf::Event::KeyPressed) {
+                if (event.key.code == Keyboard::Escape) {
                     if (buttonS.getGlobalBounds().contains(main.mapPixelToCoords(sf::Vector2i(event.mouseButton.x, event.mouseButton.y)))) {
                         std::cout << "Button pressed CONT" << std::endl;
                         GameState gameState = GameState::GAME_PLAY;
+                        main.close();
+
+//                        Game newGame;
+//                        newGame.run();
 
                     }
                     else if(buttonE.getGlobalBounds().contains(main.mapPixelToCoords(sf::Vector2i(event.mouseButton.x, event.mouseButton.y))))
