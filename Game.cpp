@@ -6,6 +6,7 @@
 #include "Enemy.h"
 #include "AssetManager.h"
 #include "Enums.h"
+#include "Menu.h"
 
 // WINDOWS
 // ??
@@ -77,6 +78,8 @@ void Game::run()
 
 
 
+
+
     while (app.isOpen())
     {
         sf::Event event;
@@ -90,16 +93,23 @@ void Game::run()
                     if (gameState == GameState::GAME_PLAY || gameState == GameState::GAME_REPLAY)
                     {
                         gameState = GameState::GAME_PAUSE;
-
                     }
                     else if (gameState == GameState::GAME_PAUSE)
                     {
                         gameState = GameState::GAME_PLAY;
 
+
                     }
                 }
+
             //control the spaceship
             spaceship->keyPressed();
+
+        }
+        if (gameState == GameState::GAME_PAUSE)
+        {
+            std::cout << "Game Paused" << std::endl;
+            sf::Window App(sf::VideoMode(800,600,32), "SFML Window");
         }
 
         //main menu
@@ -155,6 +165,8 @@ void Game::run()
         app.draw(text);
         app.display();
     }
+
+
 
 
 
