@@ -58,15 +58,6 @@ void Spaceship::draw(RenderWindow &app)
 {
     if (left == true)
     {
-        leftAnimation.setSpritePosition(position);
-        app.draw(leftAnimation.getSprite());
-        leftAnimation.update();
-    }
-    else if (right == true)
-    {
-        rightAnimation.setSpritePosition(position);
-        app.draw(rightAnimation.getSprite());
-        rightAnimation.update();
         if (currentStatus == Status::ALIVE || currentStatus == Status::EXPLODING)
         {
             leftAnimation.setSpritePosition(position);

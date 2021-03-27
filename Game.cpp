@@ -84,9 +84,12 @@ void Game::run()
             spaceship->keyPressed();
         }
 
-        Projectile *projectile = spaceship->shoot(spaceshipProjectileAnim);
-        if (projectile != NULL)
-            projectiles.push_back(projectile);
+        if (spaceship->getCurrentStatus() == Status::ALIVE || spaceship->getCurrentStatus() == Status::INVULNERABLE)
+        {
+            Projectile *projectile = spaceship->shoot(spaceshipProjectileAnim);
+            if (projectile != NULL)
+                projectiles.push_back(projectile);
+        }
 
         Projectile *enemyProjectile = enemy->shoot(enemyProjectileAnim);
         if (enemyProjectile != NULL)
