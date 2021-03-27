@@ -1,5 +1,7 @@
+#include "Game.h"
 #include "MainMenu.h"
 #include "AssetManager.h"
+#include "Enums.h"
 
 MainMenu::MainMenu() : main(VideoMode(WIDTH, HEIGHT), "Ace Combat", Style::Default)
 {
@@ -45,31 +47,33 @@ void MainMenu::run()
     txtEnd.setCharacterSize(50);
     txtEnd.setFillColor(Color::White);
     txtEnd.setPosition(300.0f, 760.0f);
+
     while (main.isOpen())
     {
         sf::Event event;
         while (main.pollEvent(event))
         {
-            if (event.type == Event::Closed)
-            {
+            if (event.type == Event::Closed){
                 main.close();
             }
 
-            if (event.type == sf::Event::MouseButtonPressed)
-            {
-                if (event.mouseButton.button == sf::Mouse::Left)
-                {
-                    if (buttonS.getGlobalBounds().contains(main.mapPixelToCoords(sf::Vector2i(event.mouseButton.x, event.mouseButton.y))))
-                    {
+           if (event.type == sf::Event::MouseButtonPressed) {
+                if (event.mouseButton.button == sf::Mouse::Left) {
+                    if (buttonS.getGlobalBounds().contains(main.mapPixelToCoords(sf::Vector2i(event.mouseButton.x, event.mouseButton.y)))) {
                         std::cout << "Button pressed START" << std::endl;
+                        GameState gameState = GameState::GAME_PLAY;
+                        main.close();
+
+                        Game newGame;
+                        newGame.run();
                     }
-                    else if (buttonE.getGlobalBounds().contains(main.mapPixelToCoords(sf::Vector2i(event.mouseButton.x, event.mouseButton.y))))
+                    else if(buttonE.getGlobalBounds().contains(main.mapPixelToCoords(sf::Vector2i(event.mouseButton.x, event.mouseButton.y))))
                     {
                         main.close();
+
                     }
                 }
             }
-
             main.draw(background);
             title.setString("Ace Combat");
             txtEnd.setString("EXIT");
@@ -82,6 +86,7 @@ void MainMenu::run()
             main.draw(txtStart);
             main.draw(buttonE);
             main.draw(txtEnd);
+
             main.display();
         }
     }

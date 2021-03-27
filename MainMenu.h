@@ -19,5 +19,5 @@ private:
     Sprite background;
     static const int WIDTH = 1050;
     static const int HEIGHT = 1150;
-    //std::list<MenuItem> _menuItems;
+
 };

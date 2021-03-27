@@ -5,6 +5,9 @@
 #include "Projectile.h"
 #include "AssetManager.h"
 #include "Enums.h"
+#include "MainMenu.h"
+#include "GamePause.h"
+#include "GameOver.h"
 
 // WINDOWS
 // ??
@@ -19,6 +22,7 @@ Game::Game() : app(VideoMode(WIDTH, HEIGHT), "Ace Combat", Style::Default)
 void Game::run()
 {
     AssetManager assetManager;
+    GameState gameState = GameState::GAME_PLAY;
     // Set background texture.
 
     Texture backgroundTexture = assetManager.getBackgroundTexture();
@@ -67,40 +71,74 @@ void Game::run()
         {
             if (event.type == Event::Closed)
                 app.close();
-
+            if (event.type == Event::KeyPressed)
+                if (event.key.code == Keyboard::Escape)
+                {
+                    if (gameState == GameState::GAME_PLAY || gameState == GameState::GAME_REPLAY)
+                    {
+                        gameState = GameState::GAME_PAUSE;
+                    }
+                    else if (gameState == GameState::GAME_PAUSE)
+                    {
+                        gameState = GameState::GAME_PLAY;
+                    }
+                }
+                if (event.key.code == Keyboard::Space && gameState != GameState::GAME_PAUSE)
+                {
+                    spaceship->deductHitPoint(1);
+                }
             spaceship->keyPressed();
         }
 
-        Projectile *projectile = spaceship->shoot(projectileAnim);
-        if (projectile != NULL)
-            projectiles.push_back(projectile);
-        else
-            printf("is null");
-
-        app.draw(background);
-
-        vector<Projectile *>::iterator projectileIt = projectiles.begin();
-        while (projectileIt != projectiles.end())
+        if (gameState == GameState::MAIN_MENU)
         {
-            (*projectileIt)->draw(app);
-            (*projectileIt)->update();
-            printf("%d\n", (*projectileIt)->getHitPoints());
-            if ((*projectileIt)->getHitPoints() <= 0)
+            MainMenu menu;
+            menu.run();
+        }
+        else if (gameState == GameState::GAME_PLAY || gameState == GameState::GAME_REPLAY)
+        {
+            if (spaceship->getCurrentStatus() == Status::ALIVE || spaceship->getCurrentStatus() == Status::INVULNERABLE)
             {
-                printf("delete");
-                projectileIt = projectiles.erase(projectileIt);
+                Projectile *projectile = spaceship->shoot(projectileAnim);
+                if (projectile != NULL)
+                    projectiles.push_back(projectile);
             }
 
-            else
-                ++projectileIt;
+            app.draw(background);
+
+            vector<Projectile *>::iterator projectileIt = projectiles.begin();
+            while (projectileIt != projectiles.end())
+            {
+                (*projectileIt)->draw(app);
+                (*projectileIt)->update();
+                if ((*projectileIt)->getHitPoints() <= 0)
+                {
+                    projectileIt = projectiles.erase(projectileIt);
+                }
+                else
+                    ++projectileIt;
+            }
+
+            spaceship->draw(app);
+            spaceship->update();
+
+            text.setString("Hit points left: " + to_string(spaceship->getHitPoints()) +
+                        "\nScore: " + to_string(spaceship->getScore()));
+            app.draw(text);
         }
-
-        spaceship->draw(app);
-        spaceship->update();
-
-        text.setString("Hit points left: " + to_string(spaceship->getHitPoints()) +
-                       "\nScore: " + to_string(spaceship->getScore()));
-        app.draw(text);
+        else if (gameState == GameState::GAME_PAUSE)
+        {
+            // Pause
+            std::cout << "Game Paused" << std::endl;
+            //GamePause pause;
+            //pause.run();
+        }
+        else
+        {
+            // Gameover
+            std::cout << "Game Over" << std::endl;
+            
+        }
 
         app.display();
     }
