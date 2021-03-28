@@ -22,7 +22,7 @@ Game::Game() : app(VideoMode(WIDTH, HEIGHT), "Ace Combat", Style::Default)
 void Game::run()
 {
     AssetManager assetManager;
-    GameState gameState = GameState::GAME_PLAY;
+    GameState gameState = MAIN_MENU;
     // Set background texture.
 
     Texture backgroundTexture = assetManager.getBackgroundTexture();
@@ -69,8 +69,6 @@ void Game::run()
         sf::Event event;
         while (app.pollEvent(event))
         {
-            if (event.type == Event::Closed)
-                app.close();
             if (event.type == Event::KeyPressed)
                 if (event.key.code == Keyboard::Escape)
                 {
@@ -83,21 +81,28 @@ void Game::run()
                         gameState = GameState::GAME_PLAY;
                     }
                 }
-                if (event.key.code == Keyboard::Space && gameState != GameState::GAME_PAUSE)
-                {
-                    spaceship->deductHitPoint(1);
-                }
+            if (event.key.code == Keyboard::Space && gameState != GameState::GAME_PAUSE)
+            {
+                spaceship->deductHitPoint(1);
+            }
             spaceship->keyPressed();
         }
-
-        if (gameState == GameState::MAIN_MENU)
+        if (gameState == MAIN_MENU)
         {
+            printf(" main menu\n");
             MainMenu menu;
-            menu.run();
+            menu.run(app, event, gameState);
         }
-        else if (gameState == GameState::GAME_PLAY || gameState == GameState::GAME_REPLAY)
+        else if (gameState == GAME_PLAY || gameState == GAME_REPLAY)
         {
-            if (spaceship->getCurrentStatus() == Status::ALIVE || spaceship->getCurrentStatus() == Status::INVULNERABLE)
+            while (app.pollEvent(event))
+            {
+                if (event.type == Event::Closed)
+                    app.close();
+            }
+            spaceship->keyPressed();
+
+            if (spaceship->getCurrentStatus() == ALIVE || spaceship->getCurrentStatus() == INVULNERABLE)
             {
                 Projectile *projectile = spaceship->shoot(projectileAnim);
                 if (projectile != NULL)
@@ -123,23 +128,16 @@ void Game::run()
             spaceship->update();
 
             text.setString("Hit points left: " + to_string(spaceship->getHitPoints()) +
-                        "\nScore: " + to_string(spaceship->getScore()));
+                           "\nScore: " + to_string(spaceship->getScore()));
             app.draw(text);
         }
-        else if (gameState == GameState::GAME_PAUSE)
+        else if (gameState == GAME_PAUSE)
         {
-            // Pause
-            std::cout << "Game Paused" << std::endl;
-            //GamePause pause;
-            //pause.run();
-        }
-        else
-        {
-            // Gameover
-            std::cout << "Game Over" << std::endl;
             
+            printf(" main menu\n");
+            GamePause pause;
+            pause.run(app, event, gameState);
         }
-
         app.display();
     }
 }

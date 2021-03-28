@@ -14,6 +14,5 @@ enum GameState
     GAME_PLAY,
     GAME_PAUSE,
     GAME_OVER,
-    GAME_HIGHSCORES,
     GAME_REPLAY
 };

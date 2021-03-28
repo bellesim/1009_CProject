@@ -3,12 +3,9 @@
 #include "AssetManager.h"
 #include "Enums.h"
 
-GamePause::GamePause()
-{
-    
-}
+GamePause::GamePause() {}
 
-void GamePause::run()
+void GamePause ::gamePauseState(RenderWindow &app)
 {
     AssetManager assetManager;
 
@@ -19,14 +16,12 @@ void GamePause::run()
     title.setFillColor(Color::Red);
     title.setPosition(280, 100);
 
-    sf::RectangleShape buttonS;
-    buttonS.setSize(sf::Vector2f(460.0f, 100.0f));
-    buttonS.setPosition(300.0f, 560.0f);
-    buttonS.setFillColor(sf::Color(56, 14, 112));
-    buttonS.setOutlineColor(sf::Color::White);
-    buttonS.setOutlineThickness(3);
+    buttonC.setSize(sf::Vector2f(460.0f, 100.0f));
+    buttonC.setPosition(300.0f, 560.0f);
+    buttonC.setFillColor(sf::Color(56, 14, 112));
+    buttonC.setOutlineColor(sf::Color::White);
+    buttonC.setOutlineThickness(3);
 
-    sf::RectangleShape buttonE;
     buttonE.setSize(sf::Vector2f(460.0f, 100.0f));
     buttonE.setPosition(300.0f, 760.0f);
     buttonE.setFillColor(sf::Color(56, 14, 112));
@@ -45,40 +40,52 @@ void GamePause::run()
     txtExit.setFillColor(Color::White);
     txtExit.setPosition(300.0f, 760.0f);
 
-        sf::Event event;
-        while (main.pollEvent(event))
+    app.draw(background);
+    title.setString("GAME PAUSE");
+    txtExit.setString("EXIT");
+    txtCont.setString("CONTINUE");
+    txtCont.setPosition(870.0f - buttonC.getLocalBounds().width, 570.0f);
+    txtExit.setPosition(930.0f - buttonE.getLocalBounds().width, 770.0f);
+
+    app.draw(title);
+    app.draw(buttonC);
+    app.draw(txtCont);
+    app.draw(buttonE);
+    app.draw(txtExit);
+
+    app.display();
+}
+
+void GamePause ::run(RenderWindow &app, Event event, GameState &gameState)
+{
+    app.clear();
+    gamePauseState(app);
+
+    while (app.pollEvent(event))
+    {
+        printf(" pause polling\n");
+        if (event.type == Event::Closed)
         {
-            if (event.type == Event::Closed){
-                main.close();
-            }
-
-           if (event.type == sf::Event::MouseButtonPressed) {
-                if (event.mouseButton.button == sf::Mouse::Left) {
-                    if (buttonS.getGlobalBounds().contains(main.mapPixelToCoords(sf::Vector2i(event.mouseButton.x, event.mouseButton.y)))) {
-                        std::cout << "Button pressed CONT" << std::endl;
-                        GameState gameState = GameState::GAME_PLAY;
-
-                    }
-                    else if(buttonE.getGlobalBounds().contains(main.mapPixelToCoords(sf::Vector2i(event.mouseButton.x, event.mouseButton.y))))
-                    {
-                        main.close();
-
-                    }
+            app.close();
+            printf(" pause close\n");
+        }
+        // For mouse pressed.
+        if (event.type == Event::MouseButtonPressed)
+        {
+            if (event.mouseButton.button == sf::Mouse::Left)
+            {
+                printf("button left click\n");
+                if (buttonC.getGlobalBounds().contains(app.mapPixelToCoords(sf::Vector2i(event.mouseButton.x, event.mouseButton.y))))
+                {
+                    printf("start click\n");
+                    gameState = GAME_PLAY;
+                }
+                else if (buttonE.getGlobalBounds().contains(app.mapPixelToCoords(sf::Vector2i(event.mouseButton.x, event.mouseButton.y))))
+                {
+                    printf("exit click\n");
+                    app.close();
                 }
             }
-            //main.draw(background);
-            title.setString("GAME PAUSE ||");
-            txtExit.setString("EXIT");
-            txtCont.setString("CONTINUE");
-            txtCont.setPosition(920.0f - buttonS.getLocalBounds().width, 570.0f);
-            txtExit.setPosition(930.0f - buttonS.getLocalBounds().width, 770.0f);
-
-            main.draw(title);
-            main.draw(buttonS);
-            main.draw(txtCont);
-            main.draw(buttonE);
-            main.draw(txtExit);
-
-            main.display();
         }
     }
+}

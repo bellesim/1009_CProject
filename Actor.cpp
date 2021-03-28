@@ -24,9 +24,16 @@ void Actor::draw(RenderWindow &app)
 void Actor::keyPressed()
 {
     if (Keyboard::isKeyPressed(Keyboard::W))
+    {
+        printf("w clicked\n");
         up = true;
+    }
+
     else
+    {
+        printf("w not clicked\n");
         up = false;
+    }
 
     if (Keyboard::isKeyPressed(Keyboard::S))
         down = true;

@@ -3,12 +3,9 @@
 #include "AssetManager.h"
 #include "Enums.h"
 
-MainMenu::MainMenu() : main(VideoMode(WIDTH, HEIGHT), "Ace Combat", Style::Default)
-{
-    main.setFramerateLimit(60);
-}
+MainMenu::MainMenu() {}
 
-void MainMenu::run()
+void MainMenu ::mainMenuState(RenderWindow &app)
 {
     AssetManager assetManager;
 
@@ -22,14 +19,12 @@ void MainMenu::run()
     title.setFillColor(Color::Red);
     title.setPosition(280, 100);
 
-    sf::RectangleShape buttonS;
     buttonS.setSize(sf::Vector2f(460.0f, 100.0f));
     buttonS.setPosition(300.0f, 560.0f);
     buttonS.setFillColor(sf::Color(56, 14, 112));
     buttonS.setOutlineColor(sf::Color::White);
     buttonS.setOutlineThickness(3);
 
-    sf::RectangleShape buttonE;
     buttonE.setSize(sf::Vector2f(460.0f, 100.0f));
     buttonE.setPosition(300.0f, 760.0f);
     buttonE.setFillColor(sf::Color(56, 14, 112));
@@ -48,46 +43,49 @@ void MainMenu::run()
     txtEnd.setFillColor(Color::White);
     txtEnd.setPosition(300.0f, 760.0f);
 
-    while (main.isOpen())
+    title.setString("Ace Combat");
+    txtEnd.setString("EXIT");
+    txtStart.setString("START");
+    txtStart.setPosition(920.0f - buttonS.getLocalBounds().width, 570.0f);
+    txtEnd.setPosition(930.0f - buttonS.getLocalBounds().width, 770.0f);
+
+    app.draw(background);
+    app.draw(title);
+    app.draw(buttonS);
+    app.draw(txtStart);
+    app.draw(buttonE);
+    app.draw(txtEnd);
+}
+
+void MainMenu::run(RenderWindow &app, Event event, GameState &gameState)
+{
+    app.clear();
+    mainMenuState(app);
+
+    while (app.pollEvent(event))
     {
-        sf::Event event;
-        while (main.pollEvent(event))
+        printf(" main menu polling\n");
+        if (event.type == Event::Closed)
         {
-            if (event.type == Event::Closed){
-                main.close();
-            }
-
-           if (event.type == sf::Event::MouseButtonPressed) {
-                if (event.mouseButton.button == sf::Mouse::Left) {
-                    if (buttonS.getGlobalBounds().contains(main.mapPixelToCoords(sf::Vector2i(event.mouseButton.x, event.mouseButton.y)))) {
-                        std::cout << "Button pressed START" << std::endl;
-                        GameState gameState = GameState::GAME_PLAY;
-                        main.close();
-
-                        Game newGame;
-                        newGame.run();
-                    }
-                    else if(buttonE.getGlobalBounds().contains(main.mapPixelToCoords(sf::Vector2i(event.mouseButton.x, event.mouseButton.y))))
-                    {
-                        main.close();
-
-                    }
+            app.close();
+        }
+        // For mouse pressed.
+        if (event.type == Event::MouseButtonPressed)
+        {
+            if (event.mouseButton.button == sf::Mouse::Left)
+            {
+                printf("button left click\n");
+                if (buttonS.getGlobalBounds().contains(app.mapPixelToCoords(sf::Vector2i(event.mouseButton.x, event.mouseButton.y))))
+                {
+                    printf("start click\n");
+                    gameState = GAME_PLAY;
+                }
+                else if (buttonE.getGlobalBounds().contains(app.mapPixelToCoords(sf::Vector2i(event.mouseButton.x, event.mouseButton.y))))
+                {
+                    printf("exit click\n");
+                    app.close();
                 }
             }
-            main.draw(background);
-            title.setString("Ace Combat");
-            txtEnd.setString("EXIT");
-            txtStart.setString("START");
-            txtStart.setPosition(920.0f - buttonS.getLocalBounds().width, 570.0f);
-            txtEnd.setPosition(930.0f - buttonS.getLocalBounds().width, 770.0f);
-
-            main.draw(title);
-            main.draw(buttonS);
-            main.draw(txtStart);
-            main.draw(buttonE);
-            main.draw(txtEnd);
-
-            main.display();
         }
     }
 }
