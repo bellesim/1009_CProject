@@ -91,7 +91,7 @@ void MainMenu :: mainMenuState(sf::RenderWindow& win){
 
     sf::Event event;
 
-    if (event.type == sf::Event::MouseButtonPressed) {
+        if (event.type == sf::Event::MouseButtonPressed) {
         if (event.mouseButton.button == sf::Mouse::Left) {
             if (buttonS.getGlobalBounds().contains(main.mapPixelToCoords(sf::Vector2i(event.mouseButton.x, event.mouseButton.y)))) {
                 std::cout << "Button pressed START" << std::endl;
@@ -181,19 +181,34 @@ void MainMenu :: mainMenuState(sf::RenderWindow& win){
 //
 //    main.display();
 //}
+//void MainMenu::run(){
+//    sf::Event event;
+//    MainMenu mainMenu;
+//    while (main.pollEvent(event))
+//    {
+//        if(event.type== Event::Closed) {
+//            main.close();
+//        }
+//        mainMenu.mainMenuState(main);
+//
+//    }
+//
+//}
+
 void MainMenu::run(){
     sf::Event event;
     MainMenu mainMenu;
-    while (main.pollEvent(event))
+    while (main.isOpen())
     {
-        if(event.type== Event::Closed) {
-            main.close();
-        }
+        while (main.pollEvent(event))
+        {
+            if(event.type== Event::Closed) {
+                main.close();
+            }
 
 //        main.clear();
-        mainMenu.mainMenuState(main);
+            mainMenu.mainMenuState(main);
 //        main.display();
-
+        }
     }
-
 }

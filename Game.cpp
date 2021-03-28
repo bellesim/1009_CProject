@@ -67,27 +67,16 @@ void Game::run()
     while (app.isOpen())
     {
         sf::Event event;
+        if (gameState == GameState::MAIN_MENU)
+        {
+            MainMenu menu;
+            menu.run();
+        }
         while (app.pollEvent(event))
         {
             if (event.type == Event::Closed)
                 app.close();
             if (event.type == Event::KeyPressed)
-                if (event.key.code == Keyboard::Escape)
-                {
-                    if (gameState == GameState::GAME_PLAY || gameState == GameState::GAME_REPLAY)
-                    {
-                        gameState = GameState::GAME_PAUSE;
-
-                    }
-                    else if (gameState == GameState::GAME_PAUSE)
-                    {
-                        gameState = GameState::GAME_PLAY;
-                    }
-                }
-                if (event.key.code == Keyboard::Space && gameState != GameState::GAME_PAUSE)
-                {
-                    spaceship->deductHitPoint(1);
-                }
             spaceship->keyPressed();
         }
 
@@ -96,55 +85,51 @@ void Game::run()
 //            GamePause pause;
 //            pause.run();
 //        }
-        if (gameState == GameState::MAIN_MENU)
-        {
-            MainMenu menu;
-            menu.run();
-        }
-        else if (gameState == GameState::GAME_PLAY || gameState == GameState::GAME_REPLAY)
-        {
-            if (spaceship->getCurrentStatus() == Status::ALIVE || spaceship->getCurrentStatus() == Status::INVULNERABLE)
-            {
-                Projectile *projectile = spaceship->shoot(projectileAnim);
-                if (projectile != NULL)
-                    projectiles.push_back(projectile);
-            }
 
-            app.draw(background);
-
-            vector<Projectile *>::iterator projectileIt = projectiles.begin();
-            while (projectileIt != projectiles.end())
-            {
-                (*projectileIt)->draw(app);
-                (*projectileIt)->update();
-                if ((*projectileIt)->getHitPoints() <= 0)
-                {
-                    projectileIt = projectiles.erase(projectileIt);
-                }
-                else
-                    ++projectileIt;
-            }
-
-            spaceship->draw(app);
-            spaceship->update();
-
-            text.setString("Hit points left: " + to_string(spaceship->getHitPoints()) +
-                        "\nScore: " + to_string(spaceship->getScore()));
-            app.draw(text);
-        }
-        else if (gameState == GameState::GAME_PAUSE)
-        {
-            // Pause
-            std::cout << "Game Paused" << std::endl;
-            //GamePause pause;
-            //pause.run();
-        }
-        else
-        {
-            // Gameover
-            std::cout << "Game Over" << std::endl;
-            
-        }
+//        else if (gameState == GameState::GAME_PLAY || gameState == GameState::GAME_REPLAY)
+//        {
+//            if (spaceship->getCurrentStatus() == Status::ALIVE || spaceship->getCurrentStatus() == Status::INVULNERABLE)
+//            {
+//                Projectile *projectile = spaceship->shoot(projectileAnim);
+//                if (projectile != NULL)
+//                    projectiles.push_back(projectile);
+//            }
+//
+//            app.draw(background);
+//
+//            vector<Projectile *>::iterator projectileIt = projectiles.begin();
+//            while (projectileIt != projectiles.end())
+//            {
+//                (*projectileIt)->draw(app);
+//                (*projectileIt)->update();
+//                if ((*projectileIt)->getHitPoints() <= 0)
+//                {
+//                    projectileIt = projectiles.erase(projectileIt);
+//                }
+//                else
+//                    ++projectileIt;
+//            }
+//
+//            spaceship->draw(app);
+//            spaceship->update();
+//
+//            text.setString("Hit points left: " + to_string(spaceship->getHitPoints()) +
+//                        "\nScore: " + to_string(spaceship->getScore()));
+//            app.draw(text);
+//        }
+//        else if (gameState == GameState::GAME_PAUSE)
+//        {
+//            // Pause
+//            std::cout << "Game Paused" << std::endl;
+//            //GamePause pause;
+//            //pause.run();
+//        }
+//        else
+//        {
+//            // Gameover
+//            std::cout << "Game Over" << std::endl;
+//
+//        }
 
         app.display();
     }
