@@ -9,6 +9,9 @@ void GamePause ::gamePauseState(RenderWindow &app)
 {
     AssetManager assetManager;
 
+    Texture backgroundTexture = assetManager.getMenuTexture();
+    background.setTexture(backgroundTexture);
+
     Text title;
     Font font = assetManager.getFont();
     title.setFont(font);
@@ -48,36 +51,37 @@ void GamePause ::gamePauseState(RenderWindow &app)
     txtCont.setPosition(920.0f - buttonS.getLocalBounds().width, 570.0f);
     txtExit.setPosition(930.0f - buttonS.getLocalBounds().width, 770.0f);
 
+    app.draw(background);
     app.draw(title);
     app.draw(buttonS);
     app.draw(txtCont);
     app.draw(buttonE);
     app.draw(txtExit);
-
-    app.display();
 }
 
-void GamePause ::run(RenderWindow &app, Event event, GameState &gameState) {
-
+void GamePause ::run(RenderWindow &app, Event event, GameState &gameState)
+{
     app.clear();
     gamePauseState(app);
 
-    while (app.pollEvent(event)) {
+    while (app.pollEvent(event))
+    {
         printf(" pause polling\n");
-        if (event.type == Event::Closed) {
+        if (event.type == Event::Closed)
+        {
             app.close();
-            printf(" pause close\n");
+        }
 
-        }
         //For esc pressed
-        if (event.type == Event::KeyPressed) {
-            if (event.key.code == Keyboard::Escape) {
-                printf("Esc button clicked");
-                gameState = GAME_PAUSE;
-            } else  {
-                gameState = GAME_PLAY;
-                printf("Game play");
-            }
-        }
+        // if (event.type == Event::KeyPressed)
+        //     if (event.key.code == Keyboard::Escape)
+        //     {
+        //         gameState = GAME_PLAY;
+        //     }
+        // if (Keyboard::isKeyPressed(Keyboard::Escape))
+        // {
+        //     printf("Esc button clicked");
+        //     gameState = GAME_PLAY;
+        // }
     }
 }
