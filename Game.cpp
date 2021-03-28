@@ -67,11 +67,11 @@ void Game::run()
     while (app.isOpen())
     {
         sf::Event event;
-        if (gameState == GameState::MAIN_MENU)
-        {
-            MainMenu menu;
-            menu.run();
-        }
+//        if (gameState == GameState::MAIN_MENU)
+//        {
+//            MainMenu menu;
+//            menu.run();
+//        }
         while (app.pollEvent(event))
         {
             if (event.type == Event::Closed)
