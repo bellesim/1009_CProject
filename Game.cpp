@@ -67,19 +67,23 @@ void Game::run()
     while (app.isOpen())
     {
         sf::Event event;
-//        if (gameState == GameState::MAIN_MENU)
-//        {
-//            MainMenu menu;
-//            menu.run();
-//        }
+
         while (app.pollEvent(event))
         Event event;
-        printf("hiii");
+        printf(" hiii\n");
         if (gameState == MAIN_MENU)
         {
-            printf("main menu");
+            printf(" main menu\n");
             MainMenu menu;
             menu.run(app, event, gameState);
+        }
+
+        else if (gameState == GameState::GAME_PAUSE)
+        {
+
+            printf(" pause menu\n");
+            GamePause pauseMenu;
+            pauseMenu.run(app, event, gameState);
         }
 
         else if (gameState == GAME_PLAY || gameState == GAME_REPLAY)
@@ -121,11 +125,7 @@ void Game::run()
             app.draw(text);
         }
 
-        //        if (gameState == GameState::GAME_PAUSE)
-        //        {
-        //            GamePause pause;
-        //            pause.run();
-        //        }
+
 
         //        else if (gameState == GameState::GAME_PLAY || gameState == GameState::GAME_REPLAY)
         //        {

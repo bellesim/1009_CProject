@@ -59,13 +59,12 @@ void MainMenu ::mainMenuState(RenderWindow &app)
 
 void MainMenu::run(RenderWindow &app, Event event, GameState &gameState)
 {
-
     app.clear();
     mainMenuState(app);
 
     while (app.pollEvent(event))
     {
-        printf("polling\n");
+        printf(" main menu polling\n");
         // gameState = GAME_PLAY;
         if (event.type == Event::Closed)
         {
