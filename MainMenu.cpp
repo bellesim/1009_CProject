@@ -181,16 +181,19 @@ void MainMenu :: mainMenuState(sf::RenderWindow& win){
 //
 //    main.display();
 //}
-
+void MainMenu::run(){
     sf::Event event;
+    MainMenu mainMenu;
     while (main.pollEvent(event))
     {
         if(event.type== Event::Closed) {
             main.close();
         }
 
-        main.clear();
+//        main.clear();
         mainMenu.mainMenuState(main);
-        main.display();
+//        main.display();
+
+    }
 
 }
