@@ -78,21 +78,25 @@ void Game::run()
             menu.run(app, event, gameState);
         }
 
-        else if (gameState == GameState::GAME_PAUSE)
-        {
-
-            printf(" pause menu\n");
-            GamePause pauseMenu;
-            pauseMenu.run(app, event, gameState);
-        }
+//        else if (gameState == GAME_PLAY || gameState == GAME_REPLAY)
+//        {
+//            printf(" pause menu\n");
+//            GamePause pauseMenu;
+//            pauseMenu.run(app, event, gameState);
+//        }
 
         else if (gameState == GAME_PLAY || gameState == GAME_REPLAY)
         {
             while (app.pollEvent(event))
             {
-                if (event.type == Event::Closed)
-                    app.close();
-                spaceship->keyPressed();
+//                if (event.type == Event::Closed)
+//                    app.close();
+//                spaceship->keyPressed();
+//                else {
+                    printf(" pause menu\n");
+                    GamePause pauseMenu;
+                    pauseMenu.run(app, event, gameState);
+//                }
             }
 
             if (spaceship->getCurrentStatus() == ALIVE || spaceship->getCurrentStatus() == INVULNERABLE)
