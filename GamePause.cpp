@@ -5,11 +5,10 @@
 
 GamePause::GamePause()
 {
-    
+
 }
 
-void GamePause::run()
-{
+void GamePause::run() {
     AssetManager assetManager;
 
     Text title;
@@ -45,30 +44,28 @@ void GamePause::run()
     txtExit.setFillColor(Color::White);
     txtExit.setPosition(300.0f, 760.0f);
 
-        sf::Event event;
-        while (main.pollEvent(event))
-        {
-            if (event.type == Event::Closed){
+    sf::Event event;
+    while (main.pollEvent(event)) {
+        if (event.type == Event::Closed) {
+            main.close();
+        }
+
+
+        if (event.type == sf::Event::KeyPressed) {
+            if (event.key.code == Keyboard::Escape) {
+                std::cout << "Escape" << std::endl;
+                GameState gameState = GameState::GAME_PLAY;
                 main.close();
-            }
-
-
-           if (event.type == sf::Event::KeyPressed) {
-                if (event.key.code == Keyboard::Escape) {
-                        std::cout << "Escape" << std::endl;
-                        GameState gameState = GameState::GAME_PLAY;
-                        main.close();
 
 //                        Game newGame;
 //                        newGame.run();
 
-                    }
-                    else if(buttonE.getGlobalBounds().contains(main.mapPixelToCoords(sf::Vector2i(event.mouseButton.x, event.mouseButton.y))))
-                    {
-                        main.close();
-
-                    }
-                }
+//                    }
+//                    else if(buttonE.getGlobalBounds().contains(main.mapPixelToCoords(sf::Vector2i(event.mouseButton.x, event.mouseButton.y))))
+//                    {
+//                        main.close();
+//
+//                    }
             }
             //main.draw(background);
             title.setString("GAME PAUSE ||");
@@ -85,4 +82,6 @@ void GamePause::run()
 
             main.display();
         }
+
     }
+}

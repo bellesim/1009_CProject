@@ -77,14 +77,11 @@ void Game::run()
                     if (gameState == GameState::GAME_PLAY || gameState == GameState::GAME_REPLAY)
                     {
                         gameState = GameState::GAME_PAUSE;
-                        GamePause pause;
-                        pause.run();
+
                     }
                     else if (gameState == GameState::GAME_PAUSE)
                     {
                         gameState = GameState::GAME_PLAY;
-                        GamePause pause;
-                        pause.run();
                     }
                 }
                 if (event.key.code == Keyboard::Space && gameState != GameState::GAME_PAUSE)

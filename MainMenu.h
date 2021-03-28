@@ -13,6 +13,7 @@ class MainMenu
 public:
     MainMenu();
     void run();
+    void mainMenuState(sf::RenderWindow& win );
 
 private:
     RenderWindow main;
