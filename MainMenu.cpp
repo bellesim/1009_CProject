@@ -60,6 +60,7 @@ void MainMenu ::mainMenuState(RenderWindow &app)
 void MainMenu::run(RenderWindow &app, Event event, GameState &gameState)
 {
     app.clear();
+    mainMenuState(app);
 
     while (app.pollEvent(event))
     {
