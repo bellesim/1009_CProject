@@ -82,15 +82,11 @@ void Game::run()
         {
             while (app.pollEvent(event))
             {
-                if (event.type == Event::Closed)
-                    app.close();
-
-                if (gameState == GAME_PAUSE)
-                {
-                    printf(" pause menu\n");
-                    GamePause pauseMenu;
-                    pauseMenu.run(app, event, gameState);
-                }
+//                if (event.type == Event::Closed)
+//                    app.close();
+                printf(" pause menu\n");
+                GamePause pauseMenu;
+                pauseMenu.run(app, event, gameState);
 
             }
             spaceship->keyPressed();
