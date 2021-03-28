@@ -6,9 +6,9 @@
 #include <thread>
 
 // temporary to print out the States of spaceship
-ostream &operator << ( ostream& strm, Status tt )
+ostream &operator<<(ostream &strm, Status tt)
 {
-    const string nameTT[] = { "ALIVE", "INVULNERABLE", "EXPLODING", "DEAD" };
+    const string nameTT[] = {"ALIVE", "INVULNERABLE", "EXPLODING", "DEAD"};
     return strm << nameTT[tt];
 }
 
@@ -18,7 +18,7 @@ Spaceship::Spaceship()
     score = 0;
     currentReloadCounter = 0;
     reloadCounter = 10;
-    currentStatus = Status::ALIVE;
+    currentStatus = ALIVE;
     blinkCounter = 0;
     blinkTime = 3;
 }
@@ -58,13 +58,13 @@ void Spaceship::draw(RenderWindow &app)
 {
     if (left == true)
     {
-        if (currentStatus == Status::ALIVE || currentStatus == Status::EXPLODING)
+        if (currentStatus == ALIVE || currentStatus == EXPLODING)
         {
             leftAnimation.setSpritePosition(x, y);
             app.draw(leftAnimation.getSprite());
             leftAnimation.update();
         }
-        else if (currentStatus == Status::INVULNERABLE)
+        else if (currentStatus == INVULNERABLE)
         {
             if (blinkTime == blinkCounter)
             {
@@ -81,13 +81,13 @@ void Spaceship::draw(RenderWindow &app)
     }
     else if (right == true)
     {
-        if (currentStatus == Status::ALIVE || currentStatus == Status::EXPLODING)
+        if (currentStatus == ALIVE || currentStatus == EXPLODING)
         {
             rightAnimation.setSpritePosition(x, y);
             app.draw(rightAnimation.getSprite());
             rightAnimation.update();
         }
-        else if (currentStatus == Status::INVULNERABLE)
+        else if (currentStatus == INVULNERABLE)
         {
             if (blinkTime == blinkCounter)
             {
@@ -104,11 +104,11 @@ void Spaceship::draw(RenderWindow &app)
     }
     else
     {
-        if (currentStatus == Status::ALIVE || currentStatus == Status::EXPLODING)
+        if (currentStatus == ALIVE || currentStatus == EXPLODING)
         {
             Actor::draw(app);
         }
-        else if (currentStatus == Status::INVULNERABLE)
+        else if (currentStatus == INVULNERABLE)
         {
             if (blinkTime == blinkCounter)
             {
@@ -125,30 +125,30 @@ void Spaceship::draw(RenderWindow &app)
 
 void Spaceship::deductHitPoint(int hit)
 {
-    if (currentStatus == Status::INVULNERABLE)
+    if (currentStatus == INVULNERABLE)
     {
         // if invulnerable do nothing
     }
     else
     {
         this->hitPoints -= hit;
-        currentStatus = Status::INVULNERABLE;
+        currentStatus = INVULNERABLE;
     }
     if (hitPoints > 0)
     {
-        std::thread t([this]()
-        {
-            std::this_thread::sleep_for(std::chrono::seconds(3));
-            currentStatus = Status::ALIVE;
-        });
-        t.detach();
+        // std::thread t([this]()
+        // {
+        //     std::this_thread::sleep_for(std::chrono::seconds(3));
+        //     currentStatus = Status::ALIVE;
+        // });
+        // t.detach();
     }
     else
     {
         if (hitPoints <= 0)
         {
             // shld be explode
-            currentStatus = Status::DEAD;
+            currentStatus = DEAD;
             std::cout << currentStatus << std::endl;
         }
     }
