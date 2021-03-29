@@ -18,8 +18,7 @@ public:
 
 private:
     Sprite background;
-
-    RenderWindow main;
     static const int WIDTH = 1050;
     static const int HEIGHT = 1150;
+
 };

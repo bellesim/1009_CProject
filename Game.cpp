@@ -92,7 +92,6 @@ void Game::run()
                 printf(" game over menu\n");
 
 
-
                 if (event.type == Event::Closed)
                     app.close();
             }
@@ -152,10 +151,6 @@ void Game::run()
             printf("game paused\n");
             pauseMenu.run(app, event, gameState);
         }
-
-
-
-
         app.display();
     }
 }

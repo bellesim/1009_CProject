@@ -19,14 +19,12 @@ void GameOver ::gameOverState(RenderWindow &app)
     title.setFillColor(Color::Red);
     title.setPosition(280, 100);
 
-    sf::RectangleShape buttonS;
     buttonS.setSize(sf::Vector2f(460.0f, 100.0f));
     buttonS.setPosition(300.0f, 560.0f);
     buttonS.setFillColor(sf::Color(56, 14, 112));
     buttonS.setOutlineColor(sf::Color::White);
     buttonS.setOutlineThickness(3);
 
-    sf::RectangleShape buttonE;
     buttonE.setSize(sf::Vector2f(460.0f, 100.0f));
     buttonE.setPosition(300.0f, 760.0f);
     buttonE.setFillColor(sf::Color(56, 14, 112));
@@ -59,17 +57,36 @@ void GameOver ::gameOverState(RenderWindow &app)
     app.draw(txtExit);
 }
 
-void GameOver ::run(RenderWindow &app, Event event, GameState &gameState)
+
+void GameOver::run(RenderWindow &app, Event event, GameState &gameState)
 {
     app.clear();
     gameOverState(app);
 
     while (app.pollEvent(event))
     {
-        printf(" game over polling\n");
+        printf("GameOver menu polling\n");
         if (event.type == Event::Closed)
         {
             app.close();
+        }
+        // For mouse pressed.
+        if (event.type == Event::MouseButtonPressed)
+        {
+            if (event.mouseButton.button == Mouse::Left)
+            {
+                printf("Button left click\n");
+                if (buttonS.getGlobalBounds().contains(app.mapPixelToCoords(sf::Vector2i(event.mouseButton.x, event.mouseButton.y))))
+                {
+                    printf("Restart click\n");
+                    gameState = GAME_PLAY;
+                }
+                else if (buttonE.getGlobalBounds().contains(app.mapPixelToCoords(sf::Vector2i(event.mouseButton.x, event.mouseButton.y))))
+                {
+                    printf("Exit click\n");
+                    app.close();
+                }
+            }
         }
 
         //For esc pressed

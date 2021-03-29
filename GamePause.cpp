@@ -19,14 +19,12 @@ void GamePause ::gamePauseState(RenderWindow &app)
     title.setFillColor(Color::Red);
     title.setPosition(280, 100);
 
-    sf::RectangleShape buttonS;
-    buttonS.setSize(sf::Vector2f(460.0f, 100.0f));
-    buttonS.setPosition(300.0f, 560.0f);
-    buttonS.setFillColor(sf::Color(56, 14, 112));
-    buttonS.setOutlineColor(sf::Color::White);
-    buttonS.setOutlineThickness(3);
+    buttonC.setSize(sf::Vector2f(460.0f, 100.0f));
+    buttonC.setPosition(300.0f, 560.0f);
+    buttonC.setFillColor(sf::Color(56, 14, 112));
+    buttonC.setOutlineColor(sf::Color::White);
+    buttonC.setOutlineThickness(3);
 
-    sf::RectangleShape buttonE;
     buttonE.setSize(sf::Vector2f(460.0f, 100.0f));
     buttonE.setPosition(300.0f, 760.0f);
     buttonE.setFillColor(sf::Color(56, 14, 112));
@@ -83,5 +81,49 @@ void GamePause ::run(RenderWindow &app, Event event, GameState &gameState)
         //     printf("Esc button clicked");
         //     gameState = GAME_PLAY;
         // }
+    title.setString("GAME PAUSE");
+    txtExit.setString("EXIT");
+    txtCont.setString("CONTINUE");
+    txtCont.setPosition(870.0f - buttonC.getLocalBounds().width, 570.0f);
+    txtExit.setPosition(930.0f - buttonC.getLocalBounds().width, 770.0f);
+
+    app.draw(background);
+    app.draw(title);
+    app.draw(buttonC);
+    app.draw(txtCont);
+    app.draw(buttonE);
+    app.draw(txtExit);
+}
+
+void GamePause ::run(RenderWindow &app, Event event, GameState &gameState)
+{
+    app.clear();
+    gamePauseState(app);
+
+    while (app.pollEvent(event))
+    {
+        printf("Pause polling\n");
+        if (event.type == Event::Closed)
+        {
+            app.close();
+        }
+        // For mouse pressed.
+        if (event.type == Event::MouseButtonPressed)
+        {
+            if (event.mouseButton.button == Mouse::Left)
+            {
+                printf("Button left click\n");
+                if (buttonC.getGlobalBounds().contains(app.mapPixelToCoords(sf::Vector2i(event.mouseButton.x, event.mouseButton.y))))
+                {
+                    printf("Continue click\n");
+                    gameState = GAME_PLAY;
+                }
+                else if (buttonE.getGlobalBounds().contains(app.mapPixelToCoords(sf::Vector2i(event.mouseButton.x, event.mouseButton.y))))
+                {
+                    printf("Exit click\n");
+                    app.close();
+                }
+            }
+        }
     }
 }

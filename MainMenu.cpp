@@ -71,15 +71,40 @@ void MainMenu::run(RenderWindow &app, Event event, GameState &gameState)
             app.close();
         }
 
+    txtStart.setString("START");
+    txtEnd.setString("EXIT");
+
+    txtStart.setPosition(920.0f - buttonS.getLocalBounds().width, 570.0f);
+    txtEnd.setPosition(930.0f - buttonS.getLocalBounds().width, 770.0f);
+
+    app.draw(background);
+    app.draw(title);
+    app.draw(buttonS);
+    app.draw(txtStart);
+    app.draw(buttonE);
+    app.draw(txtEnd);
+}
+
+void MainMenu::run(RenderWindow &app, Event event, GameState &gameState)
+{
+    app.clear();
+    mainMenuState(app);
+
+    while (app.pollEvent(event))
+    {
+        printf("Main menu polling\n");
+        if (event.type == Event::Closed)
+        {
+            app.close();
+        }
         // For mouse pressed.
         if (event.type == Event::MouseButtonPressed)
         {
             if (event.mouseButton.button == Mouse::Left)
             {
-                printf("button left click\n");
                 if (buttonS.getGlobalBounds().contains(app.mapPixelToCoords(sf::Vector2i(event.mouseButton.x, event.mouseButton.y))))
                 {
-                    printf("start click\n");
+                    printf("Start click\n");
                     gameState = GAME_PLAY;
                 }
                 else if (buttonE.getGlobalBounds().contains(app.mapPixelToCoords(sf::Vector2i(event.mouseButton.x, event.mouseButton.y))))
