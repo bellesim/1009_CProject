@@ -1,11 +1,11 @@
 #include "Game.h"
-#include "GamePause.h"
+#include "GameOver.h"
 #include "AssetManager.h"
 #include "Enums.h"
 
 GameOver::GameOver() {}
 
-void GamePause ::gameOverState(RenderWindow &app)
+void GameOver ::gameOverState(RenderWindow &app)
 {
     AssetManager assetManager;
 

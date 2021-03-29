@@ -87,9 +87,10 @@ void Game::run()
                 printf(" pause menu\n");
                 GamePause pauseMenu;
                 pauseMenu.run(app, event, gameState);
-                printf(" game over menu\n");
                 GameOver gameOver;
                 gameOver.run(app, event, gameState);
+                printf(" game over menu\n");
+
 
 
                 if (event.type == Event::Closed)
@@ -130,6 +131,11 @@ void Game::run()
                 if ((*projectileIt)->getHitPoints() <= 0)
                 {
                     projectileIt = projectiles.erase(projectileIt);
+                    if (gameState == GAME_OVER)
+                    {   GameOver gameOver;
+                        printf("game over \n");
+                        gameOver.run(app, event, gameState);
+                    }
                 }
                 else
                     ++projectileIt;
