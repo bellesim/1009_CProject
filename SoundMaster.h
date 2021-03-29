@@ -22,6 +22,15 @@ public:
     Sound sound;
 
     SoundMaster();
-    void playGame();
+    void playGameMusic();
+    void pauseGameMusic();
+    void stopGameMusic();
+    void playOverMusic();
+    void stopOverMusic();
+
     void playFire();
+    void playDie();
+    void playMenuSelect();
+    void playPause();
+    void playCollide();
 };

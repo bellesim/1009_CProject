@@ -64,7 +64,7 @@ void Game::run()
     text.setPosition(30, 30);
 
     // audio test section until more events to hook into are available
-    soundguy.playGame();
+    soundguy.playGameMusic();
     // soundguy.playFire();
 
     while (app.isOpen())
