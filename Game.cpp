@@ -131,11 +131,9 @@ void Game::run()
                 if ((*projectileIt)->getHitPoints() <= 0)
                 {
                     projectileIt = projectiles.erase(projectileIt);
-                    if (gameState == GAME_OVER)
-                    {   GameOver gameOver;
-                        printf("game over \n");
-                        gameOver.run(app, event, gameState);
-                    }
+                    gameState = GAME_OVER;
+
+
                 }
                 else
                     ++projectileIt;
