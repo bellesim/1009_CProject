@@ -1,15 +1,16 @@
 #include "Game.h"
 #include "GameOver.h"
 #include "AssetManager.h"
+#include "Enums.h"
 
-GameOver::GameOver() : main(VideoMode(WIDTH, HEIGHT), "Ace Combat", Style::Default)
-{
-    main.setFramerateLimit(60);
-}
+GameOver::GameOver() {}
 
-void GameOver::run()
+void GameOver ::GameOverState(RenderWindow &app)
 {
     AssetManager assetManager;
+
+    Texture backgroundTexture = assetManager.getMenuTexture();
+    background.setTexture(backgroundTexture);
 
     Text title;
     Font font = assetManager.getFont();
@@ -18,14 +19,12 @@ void GameOver::run()
     title.setFillColor(Color::Red);
     title.setPosition(280, 100);
 
-    sf::RectangleShape buttonS;
     buttonS.setSize(sf::Vector2f(460.0f, 100.0f));
     buttonS.setPosition(300.0f, 560.0f);
     buttonS.setFillColor(sf::Color(56, 14, 112));
     buttonS.setOutlineColor(sf::Color::White);
     buttonS.setOutlineThickness(3);
 
-    sf::RectangleShape buttonE;
     buttonE.setSize(sf::Vector2f(460.0f, 100.0f));
     buttonE.setPosition(300.0f, 760.0f);
     buttonE.setFillColor(sf::Color(56, 14, 112));
@@ -44,43 +43,68 @@ void GameOver::run()
     txtEnd.setFillColor(Color::White);
     txtEnd.setPosition(300.0f, 760.0f);
 
-    while (main.isOpen())
+    Text label;
+    label.setFont(font);
+    label.setCharacterSize(50);
+    label.setFillColor(Color::Red);
+    label.setPosition(290, 350);
+
+    Text score;
+    score.setFont(font);
+    score.setCharacterSize(50);
+    score.setFillColor(Color::Red);
+    score.setPosition(650, 350);
+
+    title.setString("Ace Combat");
+    label.setString("Your Score:");
+    //////Get score
+    score.setString("5964");
+    //////
+    txtStart.setString("RESTART");
+    txtEnd.setString("EXIT");
+    
+    txtStart.setPosition(900.0f - buttonS.getLocalBounds().width, 570.0f);
+    txtEnd.setPosition(930.0f - buttonS.getLocalBounds().width, 770.0f);
+
+    app.draw(background);
+    app.draw(title);
+    app.draw(label);
+    app.draw(score);
+    app.draw(buttonS);
+    app.draw(txtStart);
+    app.draw(buttonE);
+    app.draw(txtEnd);
+}
+
+void GameOver::run(RenderWindow &app, Event event, GameState &gameState)
+{
+    app.clear();
+    GameOverState(app);
+
+    while (app.pollEvent(event))
     {
-        sf::Event event;
-        while (main.pollEvent(event))
+        printf("GameOver menu polling\n");
+        if (event.type == Event::Closed)
         {
-            if (event.type == Event::Closed){
-                main.close();
-            }
-
-           if (event.type == sf::Event::MouseButtonPressed) {
-                if (event.mouseButton.button == sf::Mouse::Left) {
-                    if (buttonS.getGlobalBounds().contains(main.mapPixelToCoords(sf::Vector2i(event.mouseButton.x, event.mouseButton.y)))) {
-                        std::cout << "Button pressed START" << std::endl;
-                        Game game;
-                        game.run();
-                    }
-                    else if(buttonE.getGlobalBounds().contains(main.mapPixelToCoords(sf::Vector2i(event.mouseButton.x, event.mouseButton.y))))
-                    {
-                        main.close();
-
-                    }
+            app.close();
+        }
+        // For mouse pressed.
+        if (event.type == Event::MouseButtonPressed)
+        {
+            if (event.mouseButton.button == Mouse::Left)
+            {
+                printf("Button left click\n");
+                if (buttonS.getGlobalBounds().contains(app.mapPixelToCoords(sf::Vector2i(event.mouseButton.x, event.mouseButton.y))))
+                {
+                    printf("Restart click\n");
+                    gameState = GAME_PLAY;
+                }
+                else if (buttonE.getGlobalBounds().contains(app.mapPixelToCoords(sf::Vector2i(event.mouseButton.x, event.mouseButton.y))))
+                {
+                    printf("Exit click\n");
+                    app.close();
                 }
             }
-            //main.draw(background);
-            title.setString("Ace Combat");
-            txtEnd.setString("EXIT");
-            txtStart.setString("REPLAY");
-            txtStart.setPosition(920.0f - buttonS.getLocalBounds().width, 570.0f);
-            txtEnd.setPosition(930.0f - buttonS.getLocalBounds().width, 770.0f);
-
-            main.draw(title);
-            main.draw(buttonS);
-            main.draw(txtStart);
-            main.draw(buttonE);
-            main.draw(txtEnd);
-
-            main.display();
         }
     }
 }

@@ -9,6 +9,9 @@ void GamePause ::gamePauseState(RenderWindow &app)
 {
     AssetManager assetManager;
 
+    Texture backgroundTexture = assetManager.getMenuTexture();
+    background.setTexture(backgroundTexture);
+
     Text title;
     Font font = assetManager.getFont();
     title.setFont(font);
@@ -40,20 +43,18 @@ void GamePause ::gamePauseState(RenderWindow &app)
     txtExit.setFillColor(Color::White);
     txtExit.setPosition(300.0f, 760.0f);
 
-    app.draw(background);
     title.setString("GAME PAUSE");
     txtExit.setString("EXIT");
     txtCont.setString("CONTINUE");
     txtCont.setPosition(870.0f - buttonC.getLocalBounds().width, 570.0f);
-    txtExit.setPosition(930.0f - buttonE.getLocalBounds().width, 770.0f);
+    txtExit.setPosition(930.0f - buttonC.getLocalBounds().width, 770.0f);
 
+    app.draw(background);
     app.draw(title);
     app.draw(buttonC);
     app.draw(txtCont);
     app.draw(buttonE);
     app.draw(txtExit);
-
-    app.display();
 }
 
 void GamePause ::run(RenderWindow &app, Event event, GameState &gameState)
@@ -63,26 +64,25 @@ void GamePause ::run(RenderWindow &app, Event event, GameState &gameState)
 
     while (app.pollEvent(event))
     {
-        printf(" pause polling\n");
+        printf("Pause polling\n");
         if (event.type == Event::Closed)
         {
             app.close();
-            printf(" pause close\n");
         }
         // For mouse pressed.
         if (event.type == Event::MouseButtonPressed)
         {
-            if (event.mouseButton.button == sf::Mouse::Left)
+            if (event.mouseButton.button == Mouse::Left)
             {
-                printf("button left click\n");
+                printf("Button left click\n");
                 if (buttonC.getGlobalBounds().contains(app.mapPixelToCoords(sf::Vector2i(event.mouseButton.x, event.mouseButton.y))))
                 {
-                    printf("start click\n");
+                    printf("Continue click\n");
                     gameState = GAME_PLAY;
                 }
                 else if (buttonE.getGlobalBounds().contains(app.mapPixelToCoords(sf::Vector2i(event.mouseButton.x, event.mouseButton.y))))
                 {
-                    printf("exit click\n");
+                    printf("Exit click\n");
                     app.close();
                 }
             }

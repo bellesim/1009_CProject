@@ -64,42 +64,34 @@ void Game::run()
     text.setFillColor(Color::Red);
     text.setPosition(30, 30);
 
+    MainMenu menu;
+    GamePause pauseMenu;
+
     while (app.isOpen())
     {
-        sf::Event event;
-        while (app.pollEvent(event))
-        {
-            if (event.type == Event::KeyPressed)
-                if (event.key.code == Keyboard::Escape)
-                {
-                    if (gameState == GameState::GAME_PLAY || gameState == GameState::GAME_REPLAY)
-                    {
-                        gameState = GameState::GAME_PAUSE;
-                    }
-                    else if (gameState == GameState::GAME_PAUSE)
-                    {
-                        gameState = GameState::GAME_PLAY;
-                    }
-                }
-            if (event.key.code == Keyboard::Space && gameState != GameState::GAME_PAUSE)
-            {
-                spaceship->deductHitPoint(1);
-            }
-            spaceship->keyPressed();
-        }
+        Event event;
+
         if (gameState == MAIN_MENU)
         {
-            printf(" main menu\n");
-            MainMenu menu;
+            printf("main menu\n");
             menu.run(app, event, gameState);
         }
+
         else if (gameState == GAME_PLAY || gameState == GAME_REPLAY)
         {
+            printf("game play\n");
             while (app.pollEvent(event))
             {
                 if (event.type == Event::Closed)
                     app.close();
             }
+
+            if (Keyboard::isKeyPressed(Keyboard::Escape))
+            {
+                printf("Esc button clicked");
+                gameState = GAME_PAUSE;
+            }
+
             spaceship->keyPressed();
 
             if (spaceship->getCurrentStatus() == ALIVE || spaceship->getCurrentStatus() == INVULNERABLE)
@@ -131,13 +123,13 @@ void Game::run()
                            "\nScore: " + to_string(spaceship->getScore()));
             app.draw(text);
         }
+
         else if (gameState == GAME_PAUSE)
         {
-            
-            printf(" main menu\n");
-            GamePause pause;
-            pause.run(app, event, gameState);
+            printf("game paused\n");
+            pauseMenu.run(app, event, gameState);
         }
+
         app.display();
     }
 }
