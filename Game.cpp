@@ -64,22 +64,22 @@ void Game::run()
     text.setFillColor(Color::Red);
     text.setPosition(30, 30);
 
+    MainMenu menu;
+    GamePause pauseMenu;
+
     while (app.isOpen())
     {
-        sf::Event event;
-
-        while (app.pollEvent(event))
         Event event;
-        printf(" hiii\n");
+
         if (gameState == MAIN_MENU)
         {
-            printf(" main menu\n");
-            MainMenu menu;
+            printf("main menu\n");
             menu.run(app, event, gameState);
         }
 
         else if (gameState == GAME_PLAY || gameState == GAME_REPLAY)
         {
+            printf("game play\n");
             while (app.pollEvent(event))
             {
 //                if (event.type == Event::Closed)
@@ -87,12 +87,33 @@ void Game::run()
                 printf(" pause menu\n");
                 GamePause pauseMenu;
                 pauseMenu.run(app, event, gameState);
+                printf(" game over menu\n");
+                GameOver gameOver;
+                gameOver.run(app, event, gameState);
 
+
+                if (event.type == Event::Closed)
+                    app.close();
             }
+
+            if (Keyboard::isKeyPressed(Keyboard::Escape))
+            {
+                printf("Esc button clicked");
+                gameState = GAME_PAUSE;
+            }
+
             spaceship->keyPressed();
 
-
             if (spaceship->getCurrentStatus() == ALIVE || spaceship->getCurrentStatus() == INVULNERABLE)
+            {
+                Projectile *projectile = spaceship->shoot(projectileAnim);
+                if (projectile != NULL)
+                    projectiles.push_back(projectile);
+            }
+
+            app.draw(background);
+
+            if (spaceship->getCurrentStatus() == DEAD)
             {
                 Projectile *projectile = spaceship->shoot(projectileAnim);
                 if (projectile != NULL)
@@ -122,11 +143,14 @@ void Game::run()
             app.draw(text);
         }
 
-//        else if(gameState == GAME_PLAY || gameState == GAME_REPLAY){
-//            printf(" pause menu\n");
-//            GamePause pauseMenu;
-//            pauseMenu.run(app, event, gameState);
-//        }
+        else if (gameState == GAME_PAUSE)
+        {
+            printf("game paused\n");
+            pauseMenu.run(app, event, gameState);
+        }
+
+
+
 
         app.display();
     }

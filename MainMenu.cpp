@@ -74,18 +74,13 @@ void MainMenu::run(RenderWindow &app, Event event, GameState &gameState)
         // For mouse pressed.
         if (event.type == Event::MouseButtonPressed)
         {
-            if (event.mouseButton.button == sf::Mouse::Left)
+            if (event.mouseButton.button == Mouse::Left)
             {
                 printf("button left click\n");
                 if (buttonS.getGlobalBounds().contains(app.mapPixelToCoords(sf::Vector2i(event.mouseButton.x, event.mouseButton.y))))
                 {
                     printf("start click\n");
-
-                    // std::cout << "Button pressed START" << std::endl;
                     gameState = GAME_PLAY;
-                    // app.close();
-                    // Game newGame;
-                    // newGame.run();
                 }
                 else if (buttonE.getGlobalBounds().contains(app.mapPixelToCoords(sf::Vector2i(event.mouseButton.x, event.mouseButton.y))))
                 {
@@ -95,6 +90,4 @@ void MainMenu::run(RenderWindow &app, Event event, GameState &gameState)
             }
         }
     }
-
-    // app.display();
 }

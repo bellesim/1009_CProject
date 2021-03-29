@@ -1,15 +1,16 @@
 #include "Game.h"
-#include "GameOver.h"
+#include "GamePause.h"
 #include "AssetManager.h"
+#include "Enums.h"
 
-GameOver::GameOver() : main(VideoMode(WIDTH, HEIGHT), "Ace Combat", Style::Default)
-{
-    main.setFramerateLimit(60);
-}
+GameOver::GameOver() {}
 
-void GameOver::run()
+void GamePause ::gameOverState(RenderWindow &app)
 {
     AssetManager assetManager;
+
+    Texture backgroundTexture = assetManager.getMenuTexture();
+    background.setTexture(backgroundTexture);
 
     Text title;
     Font font = assetManager.getFont();
@@ -32,55 +33,55 @@ void GameOver::run()
     buttonE.setOutlineColor(sf::Color::White);
     buttonE.setOutlineThickness(3);
 
-    Text txtStart;
-    txtStart.setFont(font);
-    txtStart.setCharacterSize(50);
-    txtStart.setFillColor(Color::White);
-    txtStart.setPosition(300.0f, 560.0f);
+    Text txtCont;
+    txtCont.setFont(font);
+    txtCont.setCharacterSize(50);
+    txtCont.setFillColor(Color::White);
+    txtCont.setPosition(300.0f, 560.0f);
 
-    Text txtEnd;
-    txtEnd.setFont(font);
-    txtEnd.setCharacterSize(50);
-    txtEnd.setFillColor(Color::White);
-    txtEnd.setPosition(300.0f, 760.0f);
+    Text txtExit;
+    txtExit.setFont(font);
+    txtExit.setCharacterSize(50);
+    txtExit.setFillColor(Color::White);
+    txtExit.setPosition(300.0f, 760.0f);
 
-    while (main.isOpen())
+    title.setString("GAME PAUSE ||");
+    txtExit.setString("EXIT");
+    txtCont.setString("CONTINUE");
+    txtCont.setPosition(920.0f - buttonS.getLocalBounds().width, 570.0f);
+    txtExit.setPosition(930.0f - buttonS.getLocalBounds().width, 770.0f);
+
+    app.draw(background);
+    app.draw(title);
+    app.draw(buttonS);
+    app.draw(txtCont);
+    app.draw(buttonE);
+    app.draw(txtExit);
+}
+
+void GameOver ::run(RenderWindow &app, Event event, GameState &gameState)
+{
+    app.clear();
+    gameOverState(app);
+
+    while (app.pollEvent(event))
     {
-        sf::Event event;
-        while (main.pollEvent(event))
+        printf(" game over polling\n");
+        if (event.type == Event::Closed)
         {
-            if (event.type == Event::Closed){
-                main.close();
-            }
-
-           if (event.type == sf::Event::MouseButtonPressed) {
-                if (event.mouseButton.button == sf::Mouse::Left) {
-                    if (buttonS.getGlobalBounds().contains(main.mapPixelToCoords(sf::Vector2i(event.mouseButton.x, event.mouseButton.y)))) {
-                        std::cout << "Button pressed START" << std::endl;
-                        Game game;
-                        game.run();
-                    }
-                    else if(buttonE.getGlobalBounds().contains(main.mapPixelToCoords(sf::Vector2i(event.mouseButton.x, event.mouseButton.y))))
-                    {
-                        main.close();
-
-                    }
-                }
-            }
-            //main.draw(background);
-            title.setString("Ace Combat");
-            txtEnd.setString("EXIT");
-            txtStart.setString("REPLAY");
-            txtStart.setPosition(920.0f - buttonS.getLocalBounds().width, 570.0f);
-            txtEnd.setPosition(930.0f - buttonS.getLocalBounds().width, 770.0f);
-
-            main.draw(title);
-            main.draw(buttonS);
-            main.draw(txtStart);
-            main.draw(buttonE);
-            main.draw(txtEnd);
-
-            main.display();
+            app.close();
         }
+
+        //For esc pressed
+        // if (event.type == Event::KeyPressed)
+        //     if (event.key.code == Keyboard::Escape)
+        //     {
+        //         gameState = GAME_PLAY;
+        //     }
+        // if (Keyboard::isKeyPressed(Keyboard::Escape))
+        // {
+        //     printf("Esc button clicked");
+        //     gameState = GAME_PLAY;
+        // }
     }
 }
