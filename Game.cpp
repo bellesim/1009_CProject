@@ -82,6 +82,17 @@ void Game::run()
             printf("game play\n");
             while (app.pollEvent(event))
             {
+//                if (event.type == Event::Closed)
+//                    app.close();
+                printf(" pause menu\n");
+                GamePause pauseMenu;
+                pauseMenu.run(app, event, gameState);
+                GameOver gameOver;
+                gameOver.run(app, event, gameState);
+                printf(" game over menu\n");
+
+
+
                 if (event.type == Event::Closed)
                     app.close();
             }
@@ -103,6 +114,15 @@ void Game::run()
 
             app.draw(background);
 
+            if (spaceship->getCurrentStatus() == DEAD)
+            {
+                Projectile *projectile = spaceship->shoot(projectileAnim);
+                if (projectile != NULL)
+                    projectiles.push_back(projectile);
+            }
+
+            app.draw(background);
+
             vector<Projectile *>::iterator projectileIt = projectiles.begin();
             while (projectileIt != projectiles.end())
             {
@@ -111,6 +131,7 @@ void Game::run()
                 if ((*projectileIt)->getHitPoints() <= 0)
                 {
                     projectileIt = projectiles.erase(projectileIt);
+                    gameState = GAME_OVER;
                 }
                 else
                     ++projectileIt;
@@ -129,7 +150,6 @@ void Game::run()
             printf("game paused\n");
             pauseMenu.run(app, event, gameState);
         }
-
         app.display();
     }
 }
