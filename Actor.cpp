@@ -47,24 +47,26 @@ void Actor::keyPressed()
 
 void Actor::update()
 {
-    if (up)
-        position.addToY(-speed);
-    if (down)
-        position.addToY(speed);
-    if (left)
-        position.addToX(-speed);
-    if (right)
-        position.addToX(speed);
+    if (currentStatus != EXPLODING)
+    {
+        if (up)
+            position.addToY(-speed);
+        if (down)
+            position.addToY(speed);
+        if (left)
+            position.addToX(-speed);
+        if (right)
+            position.addToX(speed);
 
-    if (position.getX() > 1050)
-        position.setX(0);
-    if (position.getX() < 0)
-        position.setX(1050);
-    if (position.getY() > 1150)
-        position.setY(0);
-    if (position.getY() < 0)
-        position.setY(1150);
-
+        if (position.getX() > 1050)
+            position.setX(0);
+        if (position.getX() < 0)
+            position.setX(1050);
+        if (position.getY() > 1150)
+            position.setY(0);
+        if (position.getY() < 0)
+            position.setY(1150);
+    }
 };
 
 int Actor::getHitPoints()
@@ -87,7 +89,6 @@ int Actor::getWidth()
     return width;
 }
 
-
 void Actor::deductHitPoint(int hit)
 {
     this->hitPoints -= hit;
@@ -103,12 +104,14 @@ void Actor::setCurrentStatus(Status currentStatus)
     this->currentStatus = currentStatus;
 }
 
-
-bool Actor::isCollide(int x,int y){
-    if (x >= position.getX() && x <= position.getX()+this->getWidth()){
-        if(y >= position.getY() && y <= position.getY()+this->getHeight()){
+bool Actor::isCollide(int x, int y)
+{
+    if (x >= position.getX() && x <= position.getX() + this->getWidth())
+    {
+        if (y >= position.getY() && y <= position.getY() + this->getHeight())
+        {
             return true;
-        }  
+        }
     }
     return false;
 }

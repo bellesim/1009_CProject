@@ -3,7 +3,8 @@
 
 Formation::Formation() {}
 
-vector<Enemy *> Formation::generateRandomFormation(int count, Animation enemyAnim)
+vector<Enemy *> Formation::generateRandomFormation(int count, Animation &enemyAnim,
+                                                   Animation &explosionAnim)
 {
     vector<Enemy *> enemies;
 
@@ -45,7 +46,7 @@ vector<Enemy *> Formation::generateRandomFormation(int count, Animation enemyAni
     for (int i = 0; i < randomEnemyCount; i++)
     {
         Enemy *enemy = new Enemy();
-        enemy->settings(enemyAnim, positions,
+        enemy->settings(enemyAnim, explosionAnim, positions,
                         startX,
                         space);
         enemies.push_back(enemy);

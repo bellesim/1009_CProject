@@ -76,7 +76,10 @@ void Spaceship::updateAnimation(RenderWindow &app)
     }
     else if (currentStatus == EXPLODING)
     {
-        explosionAnimation.setSpritePosition(position);
+         Position newPosition = position;
+        newPosition.addToX(-75);
+        newPosition.addToY(-75);
+        explosionAnimation.setSpritePosition(newPosition);
         app.draw(explosionAnimation.getSprite());
         explosionAnimation.update();
     }
@@ -117,7 +120,6 @@ void Spaceship::deductHitPoint(int hit)
         {
             // shld be explode.
             currentStatus = EXPLODING;
-            // currentStatus = DEAD;
             std::cout << currentStatus << std::endl;
         }
         else

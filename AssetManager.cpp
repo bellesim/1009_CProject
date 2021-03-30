@@ -67,6 +67,7 @@ vector<Texture> AssetManager::getExplosionTextures()
         Texture texture;
         texture.loadFromFile("images/explosions/explosion_1/explosion_" +
                              to_string((i + 1)) + ".png");
+                             
         explosionTextures.push_back(texture);
     }
     return explosionTextures;

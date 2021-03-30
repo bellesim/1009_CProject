@@ -10,7 +10,7 @@ class Formation
 {
 public:
     Formation();
-    static vector<Enemy *> generateRandomFormation(int count, Animation enemyAnim);
+    static vector<Enemy *> generateRandomFormation(int count, Animation &enemyAnim, Animation &explosionAnim);
     static vector<Position *> generateHorizontalLeft();
     static vector<Position *> generateHorizontalRight();
     static vector<Position *> generateDiagonalLeft();

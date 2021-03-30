@@ -42,8 +42,8 @@ vector<char> Position::operator-(Position *position)
 {
     vector<char> directions;
     // printsf("hi");
-    printf("\nthis is my x %d", this->getX());
-    printf("\nthis is the other x %d", position->getX());
+    // printf("\nthis is my x %d", this->getX());
+    // printf("\nthis is the other x %d", position->getX());
     // Move towards the point enemy should go.
     if (this->getX() < position->getX())
     {
