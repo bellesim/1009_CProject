@@ -9,10 +9,14 @@
 #include "MainMenu.h"
 #include "GamePause.h"
 #include "GameOver.h"
+#include "SoundMaster.h"
+
 // WINDOWS
-// ??
+// ???
 // MAC
-// g++ -std=c++11 main.cpp MainMenu.cpp GamePause.cpp GameOver.cpp Animation.cpp Position.cpp Actor.cpp Projectile.cpp Enemy.cpp Formation.cpp Spaceship.cpp AssetManager.cpp Game.cpp -o game -lsfml-graphics -lsfml-window -lsfml-system
+// g++ -std=c++11 main.cpp SoundMaster.cpp MainMenu.cpp GamePause.cpp GameOver.cpp Animation.cpp Position.cpp Actor.cpp Projectile.cpp Enemy.cpp Formation.cpp Spaceship.cpp AssetManager.cpp Game.cpp -o game -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
+// g++ main.cpp Animation.cpp Actor.cpp Spaceship.cpp AssetManager.cpp Game.cpp -o game -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
+// g++ main.cpp Animation.cpp Actor.cpp SoundMaster.cpp Projectile.cpp Spaceship.cpp AssetManager.cpp Game.cpp -o game -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
 Game::Game() : app(VideoMode(WIDTH, HEIGHT), "Ace Combat", Style::Default)
 {
     app.setFramerateLimit(60);
@@ -23,7 +27,8 @@ void Game::run()
     AssetManager assetManager;
     GameState gameState = MAIN_MENU;
 
-    // Set background texture.
+    SoundMaster soundMaster;
+
     Texture backgroundTexture = assetManager.getBackgroundTexture();
     background.setTexture(backgroundTexture);
 
@@ -76,12 +81,14 @@ void Game::run()
     GamePause pauseMenu;
     GameOver overMenu;
     int endScore;
-    
+
     while (app.isOpen())
     {
         Event event;
         if (gameState == MAIN_MENU)
         {
+            soundMaster.playGameMusic();
+            // soundMaster.stopGameMusic();
             printf("Main menu\n");
             menu.run(app, event, gameState);
         }
