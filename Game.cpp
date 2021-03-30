@@ -10,9 +10,7 @@
 // WINDOWS
 // ??
 // MAC
-// g++ main.cpp Animation.cpp Position.cpp Actor.cpp Spaceship.cpp AssetManager.cpp Game.cpp -o game -lsfml-graphics -lsfml-window -lsfml-system
-// g++ main.cpp Animation.cpp Position.cpp Formation.cpp Actor.cpp Projectile.cpp Enemy.cpp Spaceship.cpp AssetManager.cpp Game.cpp -o game -lsfml-graphics -lsfml-window -lsfml-system
-
+// g++ main.cpp Animation.cpp Position.cpp Actor.cpp Projectile.cpp Enemy.cpp Spaceship.cpp AssetManager.cpp Game.cpp -o game -lsfml-graphics -lsfml-window -lsfml-system
 Game::Game() : app(VideoMode(WIDTH, HEIGHT), "Ace Combat", Style::Default)
 {
     app.setFramerateLimit(60);
@@ -56,7 +54,7 @@ void Game::run()
 
     // Create Spaceship.
     Spaceship *spaceship = new Spaceship();
-    spaceship->settings(spaceshipAnim, leftSpaceshipAnim, rightSpaceshipAnim,
+    spaceship->settings(spaceshipAnim, leftSpaceshipAnim, rightSpaceshipAnim, explosionAnim,
                         (WIDTH + 20) / 2, ((HEIGHT + 20) / 4) * 3);
 
     vector<Projectile *> projectiles;
@@ -85,6 +83,14 @@ void Game::run()
         // Draw background.
         app.draw(background);
 
+        // Handle enemies generation.
+        if (enemies.size() < (TOTAL_ENEMIES / 10) * 8)
+        {
+            vector<Enemy *> newEnemies = Formation::generateRandomFormation((TOTAL_ENEMIES - enemies.size()),
+                                                                            enemyAnim);
+            enemies.insert(enemies.end(), newEnemies.begin(), newEnemies.end());
+        }
+
         // Handle create enemy projectile and destroy.
         vector<Enemy *>::iterator enemyIt = enemies.begin();
         while (enemyIt != enemies.end())
@@ -103,18 +109,14 @@ void Game::run()
             ++enemyIt;
             // else ++enemyIt;
         }
-        printf("\n%d", TOTAL_ENEMIES - enemies.size());
-        if (enemies.size() < (TOTAL_ENEMIES / 10) * 8)
-        {
-            vector<Enemy *> newEnemies = Formation::generateRandomFormation((TOTAL_ENEMIES - enemies.size()),
-                                                                            enemyAnim);
-            enemies.insert(enemies.end(), newEnemies.begin(), newEnemies.end());
-        }
 
-        // Handle create spaceship projectile.
-        Projectile *projectile = spaceship->shoot(spaceshipProjectileAnim);
-        if (projectile != NULL)
-            projectiles.push_back(projectile);
+        // Shoot only when spaceship is alive.
+        if (spaceship->getCurrentStatus() == ALIVE || spaceship->getCurrentStatus() == INVULNERABLE)
+        {
+            Projectile *projectile = spaceship->shoot(spaceshipProjectileAnim);
+            if (projectile != NULL)
+                projectiles.push_back(projectile);
+        }
 
         // Draw all projectile.
         vector<Projectile *>::iterator projectileIt = projectiles.begin();
@@ -122,6 +124,30 @@ void Game::run()
         {
             (*projectileIt)->draw(app);
             (*projectileIt)->update();
+
+            Position projectilePosition = (*projectileIt)->getPosition();
+
+            if ((*projectileIt)->getOrigin() == "enemy")
+            {
+                if (spaceship->isCollide(projectilePosition.getX(), projectilePosition.getY()))
+                {
+                    printf("PROJECTILE COLLIDED \n");
+                    spaceship->deductHitPoint(1);
+                }
+            }
+            else if ((*projectileIt)->getOrigin() == "spaceship")
+            {
+                for (Enemy *enemy : enemies)
+                {
+                    if (enemy->isCollide(projectilePosition.getX(), projectilePosition.getY()))
+                    {
+                        printf("ENEMY PROJECTILE COLLIDED \n");
+                        enemy->deductHitPoint(1);
+                    }
+                }
+            }
+
+            // Erase projectile if projectile is outside of screen or hit enemy.
             if ((*projectileIt)->getHitPoints() <= 0)
             {
                 projectileIt = projectiles.erase(projectileIt);
@@ -134,6 +160,17 @@ void Game::run()
         // Draw spaceship.
         spaceship->draw(app);
         spaceship->update();
+
+        //detect collision with enemy.
+        for (Enemy *enemy : enemies)
+        {
+            Position en = enemy->getPosition();
+            if (spaceship->isCollide(en.getX(), en.getY()))
+            {
+                printf("\nenemy collide with spaceship");
+                spaceship->deductHitPoint(1);
+            }
+        }
 
         text.setString("Hit points left: " + to_string(spaceship->getHitPoints()) +
                        "\nScore: " + to_string(spaceship->getScore()));

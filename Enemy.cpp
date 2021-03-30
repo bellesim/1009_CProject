@@ -17,19 +17,17 @@ Projectile *Enemy::shoot(Animation projectileAnim)
         int shootDirection = rand() % (3) + 1;
         if (shootDirection == 1)
         {
-            projectile = new Projectile(false, true, false, false, 5);
+            projectile = new Projectile(false, true, false, false, 5, "enemy");
         }
         else if (shootDirection == 2)
         {
-            projectile = new Projectile(false, true, true, false, 5);
+            projectile = new Projectile(false, true, true, false, 5, "enemy");
         }
         else
         {
-            projectile = new Projectile(false, true, false, true, 5);
+            projectile = new Projectile(false, true, false, true, 5, "enemy");
         }
 
-        projectile->settings(projectileAnim, *this);
-        currentReloadCounter = 0;
         return projectile;
     }
 
