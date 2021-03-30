@@ -5,7 +5,7 @@
 
 GameOver::GameOver() {}
 
-void GameOver ::gameOverState(RenderWindow &app)
+void GameOver ::GameOverState(RenderWindow &app)
 {
     AssetManager assetManager;
 
@@ -31,37 +31,55 @@ void GameOver ::gameOverState(RenderWindow &app)
     buttonE.setOutlineColor(sf::Color::White);
     buttonE.setOutlineThickness(3);
 
-    Text txtCont;
-    txtCont.setFont(font);
-    txtCont.setCharacterSize(50);
-    txtCont.setFillColor(Color::White);
-    txtCont.setPosition(300.0f, 560.0f);
+    Text txtStart;
+    txtStart.setFont(font);
+    txtStart.setCharacterSize(50);
+    txtStart.setFillColor(Color::White);
+    txtStart.setPosition(300.0f, 560.0f);
 
-    Text txtExit;
-    txtExit.setFont(font);
-    txtExit.setCharacterSize(50);
-    txtExit.setFillColor(Color::White);
-    txtExit.setPosition(300.0f, 760.0f);
+    Text txtEnd;
+    txtEnd.setFont(font);
+    txtEnd.setCharacterSize(50);
+    txtEnd.setFillColor(Color::White);
+    txtEnd.setPosition(300.0f, 760.0f);
 
-    title.setString("GAME PAUSE ||");
-    txtExit.setString("EXIT");
-    txtCont.setString("CONTINUE");
-    txtCont.setPosition(920.0f - buttonS.getLocalBounds().width, 570.0f);
-    txtExit.setPosition(930.0f - buttonS.getLocalBounds().width, 770.0f);
+    Text label;
+    label.setFont(font);
+    label.setCharacterSize(50);
+    label.setFillColor(Color::Red);
+    label.setPosition(290, 350);
+
+    Text score;
+    score.setFont(font);
+    score.setCharacterSize(50);
+    score.setFillColor(Color::Red);
+    score.setPosition(650, 350);
+
+    title.setString("Ace Combat");
+    label.setString("Your Score:");
+    //////Get score
+    score.setString("5964");
+    //////
+    txtStart.setString("RESTART");
+    txtEnd.setString("EXIT");
+    
+    txtStart.setPosition(900.0f - buttonS.getLocalBounds().width, 570.0f);
+    txtEnd.setPosition(930.0f - buttonS.getLocalBounds().width, 770.0f);
 
     app.draw(background);
     app.draw(title);
+    app.draw(label);
+    app.draw(score);
     app.draw(buttonS);
-    app.draw(txtCont);
+    app.draw(txtStart);
     app.draw(buttonE);
-    app.draw(txtExit);
+    app.draw(txtEnd);
 }
-
 
 void GameOver::run(RenderWindow &app, Event event, GameState &gameState)
 {
     app.clear();
-    gameOverState(app);
+    GameOverState(app);
 
     while (app.pollEvent(event))
     {
@@ -88,17 +106,5 @@ void GameOver::run(RenderWindow &app, Event event, GameState &gameState)
                 }
             }
         }
-
-        //For esc pressed
-        // if (event.type == Event::KeyPressed)
-        //     if (event.key.code == Keyboard::Escape)
-        //     {
-        //         gameState = GAME_PLAY;
-        //     }
-        // if (Keyboard::isKeyPressed(Keyboard::Escape))
-        // {
-        //     printf("Esc button clicked");
-        //     gameState = GAME_PLAY;
-        // }
     }
 }

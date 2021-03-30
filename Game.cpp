@@ -8,7 +8,6 @@
 #include "MainMenu.h"
 #include "GamePause.h"
 #include "GameOver.h"
-
 // WINDOWS
 // ??
 // MAC
@@ -23,8 +22,8 @@ void Game::run()
 {
     AssetManager assetManager;
     GameState gameState = MAIN_MENU;
-    // Set background texture.
 
+    // Set background texture.
     Texture backgroundTexture = assetManager.getBackgroundTexture();
     background.setTexture(backgroundTexture);
 
@@ -66,59 +65,48 @@ void Game::run()
 
     MainMenu menu;
     GamePause pauseMenu;
+    GameOver overMenu;
 
     while (app.isOpen())
     {
         Event event;
-
         if (gameState == MAIN_MENU)
         {
-            printf("main menu\n");
-            menu.run(app, event, gameState);
+            printf("Main menu\n");
+            pauseMenu.run(app, event, gameState);
         }
 
         else if (gameState == GAME_PLAY || gameState == GAME_REPLAY)
         {
-            printf("game play\n");
+            printf("Game play\n");
+
             while (app.pollEvent(event))
             {
-//                if (event.type == Event::Closed)
-//                    app.close();
-                printf(" pause menu\n");
-                GamePause pauseMenu;
-                pauseMenu.run(app, event, gameState);
-                GameOver gameOver;
-                gameOver.run(app, event, gameState);
-                printf(" game over menu\n");
-
-
                 if (event.type == Event::Closed)
+                {
                     app.close();
+                }
+
+                if (Keyboard::isKeyPressed(Keyboard::Escape))
+                {
+                    printf("Esc button clicked");
+                    gameState = GAME_PAUSE;
+                }
+                spaceship->keyPressed();
+
+                if (spaceship->getCurrentStatus() == ALIVE || spaceship->getCurrentStatus() == INVULNERABLE)
+                {
+                    Projectile *projectile = spaceship->shoot(projectileAnim);
+                    if (projectile != NULL)
+                        projectiles.push_back(projectile);
+                }
             }
 
-            if (Keyboard::isKeyPressed(Keyboard::Escape))
-            {
-                printf("Esc button clicked");
-                gameState = GAME_PAUSE;
-            }
-
-            spaceship->keyPressed();
-
-            if (spaceship->getCurrentStatus() == ALIVE || spaceship->getCurrentStatus() == INVULNERABLE)
-            {
-                Projectile *projectile = spaceship->shoot(projectileAnim);
-                if (projectile != NULL)
-                    projectiles.push_back(projectile);
-            }
-
-            app.draw(background);
-
-            if (spaceship->getCurrentStatus() == DEAD)
-            {
-                Projectile *projectile = spaceship->shoot(projectileAnim);
-                if (projectile != NULL)
-                    projectiles.push_back(projectile);
-            }
+            Projectile *projectile = spaceship->shoot(projectileAnim);
+            if (projectile != NULL)
+                projectiles.push_back(projectile);
+            else
+                printf("is null");
 
             app.draw(background);
 
@@ -127,13 +115,13 @@ void Game::run()
             {
                 (*projectileIt)->draw(app);
                 (*projectileIt)->update();
+                printf("%d\n", (*projectileIt)->getHitPoints());
                 if ((*projectileIt)->getHitPoints() <= 0)
                 {
+                    printf("delete");
                     projectileIt = projectiles.erase(projectileIt);
-                    gameState = GAME_OVER;
-
-
                 }
+
                 else
                     ++projectileIt;
             }
@@ -145,11 +133,15 @@ void Game::run()
                            "\nScore: " + to_string(spaceship->getScore()));
             app.draw(text);
         }
-
         else if (gameState == GAME_PAUSE)
         {
             printf("game paused\n");
             pauseMenu.run(app, event, gameState);
+        }
+        else if(gameState == GAME_OVER)
+        {
+            printf("game over\n");
+            overMenu.run(app, event, gameState);
         }
         app.display();
     }

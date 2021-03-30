@@ -43,44 +43,6 @@ void GamePause ::gamePauseState(RenderWindow &app)
     txtExit.setFillColor(Color::White);
     txtExit.setPosition(300.0f, 760.0f);
 
-    title.setString("GAME PAUSE ||");
-    txtExit.setString("EXIT");
-    txtCont.setString("CONTINUE");
-    txtCont.setPosition(920.0f - buttonS.getLocalBounds().width, 570.0f);
-    txtExit.setPosition(930.0f - buttonS.getLocalBounds().width, 770.0f);
-
-    app.draw(background);
-    app.draw(title);
-    app.draw(buttonS);
-    app.draw(txtCont);
-    app.draw(buttonE);
-    app.draw(txtExit);
-}
-
-void GamePause ::run(RenderWindow &app, Event event, GameState &gameState)
-{
-    app.clear();
-    gamePauseState(app);
-
-    while (app.pollEvent(event))
-    {
-        printf(" pause polling\n");
-        if (event.type == Event::Closed)
-        {
-            app.close();
-        }
-
-        //For esc pressed
-        // if (event.type == Event::KeyPressed)
-        //     if (event.key.code == Keyboard::Escape)
-        //     {
-        //         gameState = GAME_PLAY;
-        //     }
-        // if (Keyboard::isKeyPressed(Keyboard::Escape))
-        // {
-        //     printf("Esc button clicked");
-        //     gameState = GAME_PLAY;
-        // }
     title.setString("GAME PAUSE");
     txtExit.setString("EXIT");
     txtCont.setString("CONTINUE");

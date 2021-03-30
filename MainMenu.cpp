@@ -64,34 +64,6 @@ void MainMenu::run(RenderWindow &app, Event event, GameState &gameState)
 
     while (app.pollEvent(event))
     {
-        printf(" main menu polling\n");
-        // gameState = GAME_PLAY;
-        if (event.type == Event::Closed)
-        {
-            app.close();
-        }
-
-    txtStart.setString("START");
-    txtEnd.setString("EXIT");
-
-    txtStart.setPosition(920.0f - buttonS.getLocalBounds().width, 570.0f);
-    txtEnd.setPosition(930.0f - buttonS.getLocalBounds().width, 770.0f);
-
-    app.draw(background);
-    app.draw(title);
-    app.draw(buttonS);
-    app.draw(txtStart);
-    app.draw(buttonE);
-    app.draw(txtEnd);
-}
-
-void MainMenu::run(RenderWindow &app, Event event, GameState &gameState)
-{
-    app.clear();
-    mainMenuState(app);
-
-    while (app.pollEvent(event))
-    {
         printf("Main menu polling\n");
         if (event.type == Event::Closed)
         {
