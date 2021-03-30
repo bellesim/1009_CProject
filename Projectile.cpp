@@ -4,7 +4,7 @@ Projectile ::Projectile()
 {
 }
 
-Projectile::Projectile(bool up, bool down, bool left, bool right, int speed,string origin)
+Projectile::Projectile(bool up, bool down, bool left, bool right, int speed, string origin)
 {
     this->up = up;
     this->down = down;

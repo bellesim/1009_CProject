@@ -18,4 +18,5 @@ public:
     void update();
     void setSpritePosition(Position position);
     Sprite getSprite();
+    bool isEndOfAnimation();
 };

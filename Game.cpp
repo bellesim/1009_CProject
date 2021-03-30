@@ -10,7 +10,6 @@
 // WINDOWS
 // ??
 // MAC
-// g++ main.cpp Animation.cpp Position.cpp Actor.cpp Spaceship.cpp AssetManager.cpp Game.cpp -o game -lsfml-graphics -lsfml-window -lsfml-system
 // g++ main.cpp Animation.cpp Position.cpp Actor.cpp Projectile.cpp Enemy.cpp Spaceship.cpp AssetManager.cpp Game.cpp -o game -lsfml-graphics -lsfml-window -lsfml-system
 Game::Game() : app(VideoMode(WIDTH, HEIGHT), "Ace Combat", Style::Default)
 {
@@ -55,7 +54,7 @@ void Game::run()
 
     // Create Spaceship.
     Spaceship *spaceship = new Spaceship();
-    spaceship->settings(spaceshipAnim, leftSpaceshipAnim, rightSpaceshipAnim,
+    spaceship->settings(spaceshipAnim, leftSpaceshipAnim, rightSpaceshipAnim, explosionAnim,
                         (WIDTH + 20) / 2, ((HEIGHT + 20) / 4) * 3);
 
     // Create test enemy.
@@ -84,44 +83,49 @@ void Game::run()
             spaceship->keyPressed();
         }
 
-        if (spaceship->getCurrentStatus() == Status::ALIVE || spaceship->getCurrentStatus() == Status::INVULNERABLE)
+        // Shoot only when spaceship is alive.
+        if (spaceship->getCurrentStatus() == ALIVE || spaceship->getCurrentStatus() == INVULNERABLE)
         {
             Projectile *projectile = spaceship->shoot(spaceshipProjectileAnim);
             if (projectile != NULL)
                 projectiles.push_back(projectile);
         }
 
+        // Enemy shoot.
         Projectile *enemyProjectile = enemy->shoot(enemyProjectileAnim);
         if (enemyProjectile != NULL)
             projectiles.push_back(enemyProjectile);
 
+        // Draw background.
         app.draw(background);
 
+        // Draw, check if outside of screen and whether it collide with other actors.
         vector<Projectile *>::iterator projectileIt = projectiles.begin();
         while (projectileIt != projectiles.end())
         {
             (*projectileIt)->draw(app);
             (*projectileIt)->update();
-            // printf("%d\n", (*projectileIt)->getHitPoints());
-            Position proj = (*projectileIt)->getPosition();
-            String origin = (*projectileIt)->getOrigin();
-            if (origin == "enemy")
+
+            Position projectilePosition = (*projectileIt)->getPosition();
+
+            if ((*projectileIt)->getOrigin() == "enemy")
             {
-                if (spaceship->isCollide(proj.getX(), proj.getY()))
+                if (spaceship->isCollide(projectilePosition.getX(), projectilePosition.getY()))
                 {
                     printf("PROJECTILE COLLIDED \n");
                     spaceship->deductHitPoint(1);
                 }
             }
-            else if (origin == "spaceship")
+            else if ((*projectileIt)->getOrigin() == "spaceship")
             {
-                if (enemy->isCollide(proj.getX(), proj.getY()))
+                if (enemy->isCollide(projectilePosition.getX(), projectilePosition.getY()))
                 {
                     printf("ENEMY PROJECTILE COLLIDED \n");
                     enemy->deductHitPoint(1);
                 }
             }
 
+            // Erase projectile if projectile is outside of screen or hit enemy.
             if ((*projectileIt)->getHitPoints() <= 0)
             {
                 projectileIt = projectiles.erase(projectileIt);
@@ -137,10 +141,11 @@ void Game::run()
         spaceship->draw(app);
         spaceship->update();
 
-        //detect collision with enemy
+        //detect collision with enemy.
         Position en = enemy->getPosition();
         if (spaceship->isCollide(en.getX(), en.getY()))
         {
+            printf("\nenemy collide with spaceship");
             spaceship->deductHitPoint(1);
         }
 
