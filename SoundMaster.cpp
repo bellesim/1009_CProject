@@ -52,75 +52,23 @@ SoundMaster::SoundMaster()
     }
 }
 
-// main game music control
-
 void SoundMaster::playGameMusic()
 {
     gamemusic.play();
 }
 
-void SoundMaster::pauseGameMusic()
-{
-    gamemusic.pause();
-}
-
-void SoundMaster::stopGameMusic()
-{
-    gamemusic.stop();
-}
-
-// game over music control
-
-void SoundMaster::playOverMusic()
-{
-    overmusic.play();
-}
-
-void SoundMaster::stopOverMusic()
-{
-    overmusic.stop();
-}
-
-// sfx fire controls
-
 void SoundMaster::playFire()
 {
     if ((rand() % 2))
     {
-        sound.setBuffer(efire);
+        fireSound.setBuffer(efire);
     }
     else
     {
-        sound.setBuffer(efire2);
+        fireSound.setBuffer(efire2);
     }
 
-    sound.play();
-}
-
-void SoundMaster::playDie()
-{
-    if ((rand() % 2))
-    {
-        sound.setBuffer(edie);
-    }
-    else
-    {
-        sound.setBuffer(edielow);
-    }
-
-    sound.play();
-}
-
-void SoundMaster::playMenuSelect()
-{
-    sound.setBuffer(mselect);
-    sound.play();
-}
-
-void SoundMaster::playPause()
-{
-    sound.setBuffer(mpause);
-    sound.play();
+    fireSound.play();
 }
 
 void SoundMaster::playCollide()

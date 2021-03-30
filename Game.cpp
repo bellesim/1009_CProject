@@ -28,7 +28,7 @@ void Game::run()
     GameState gameState = MAIN_MENU;
 
     SoundMaster soundMaster;
-
+    soundMaster.playGameMusic();
     Texture backgroundTexture = assetManager.getBackgroundTexture();
     background.setTexture(backgroundTexture);
 
@@ -87,7 +87,6 @@ void Game::run()
         Event event;
         if (gameState == MAIN_MENU)
         {
-            soundMaster.playGameMusic();
             // soundMaster.stopGameMusic();
             printf("Main menu\n");
             menu.run(app, event, gameState);
@@ -136,7 +135,10 @@ void Game::run()
             {
                 Projectile *enemyProjectile = (*enemyIt)->shoot(enemyProjectileAnim);
                 if (enemyProjectile != NULL)
+                {
+                    soundMaster.playFire();
                     projectiles.push_back(enemyProjectile);
+                }
 
                 // Draw enemy.
                 (*enemyIt)->draw(app);
@@ -174,6 +176,7 @@ void Game::run()
                 {
                     if (spaceship->isCollide(projectilePosition.getX(), projectilePosition.getY()))
                     {
+                        soundMaster.playCollide();
                         printf("PROJECTILE COLLIDED \n");
                         spaceship->deductHitPoint(1);
                         hit = true;
@@ -185,6 +188,7 @@ void Game::run()
                     {
                         if (enemy->isCollide(projectilePosition.getX(), projectilePosition.getY()))
                         {
+                            soundMaster.playCollide();
                             printf("ENEMY PROJECTILE COLLIDED \n");
                             spaceship->addToScore(50);
                             enemy->deductHitPoint(1);
