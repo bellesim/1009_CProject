@@ -12,15 +12,17 @@ using namespace sf;
 
 class Game
 {
-public:
-    bool up, down, left, right;
-    Game();
-    void run();
-
 private:
     RenderWindow app;
     Sprite background;
+
+public:
+    static const int TOTAL_ENEMIES = 20;
     static const int WIDTH = 1050;
     static const int HEIGHT = 1150;
     static const int gameSpeed = 1000;
+    bool up, down, left, right;
+    Game();
+    void run();
+    // friend vector<Enemy> operator+=(vector<Enemy> &enemiesA, const vector<Enemy> &enemiesB);
 };

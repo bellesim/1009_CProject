@@ -7,6 +7,13 @@ Texture AssetManager::getBackgroundTexture()
     return backgroundTexture;
 }
 
+Texture AssetManager::getMenuTexture()
+{
+    Texture backgroundTexture;
+    backgroundTexture.loadFromFile("images/mainMenu_bg.jpg");
+    return backgroundTexture;
+}
+
 vector<Texture> AssetManager::getSpaceshipTextures()
 {
     vector<Texture> spaceshipTextures;
@@ -67,6 +74,7 @@ vector<Texture> AssetManager::getExplosionTextures()
         Texture texture;
         texture.loadFromFile("images/explosions/explosion_1/explosion_" +
                              to_string((i + 1)) + ".png");
+                             
         explosionTextures.push_back(texture);
     }
     return explosionTextures;

@@ -4,7 +4,7 @@ Projectile ::Projectile()
 {
 }
 
-Projectile::Projectile(bool up, bool down, bool left, bool right, int speed)
+Projectile::Projectile(bool up, bool down, bool left, bool right, int speed, string origin)
 {
     this->up = up;
     this->down = down;
@@ -12,6 +12,7 @@ Projectile::Projectile(bool up, bool down, bool left, bool right, int speed)
     this->right = right;
     hitPoints = 1;
     this->speed = speed;
+    this->origin = origin;
 }
 
 void Projectile::settings(Animation &a, Actor &actor)
@@ -36,4 +37,8 @@ void Projectile::update()
     {
         hitPoints = 0;
     }
+}
+
+string Projectile::getOrigin(){
+    return origin;
 }

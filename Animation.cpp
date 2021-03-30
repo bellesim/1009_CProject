@@ -30,3 +30,8 @@ Sprite Animation::getSprite()
 {
     return sprite;
 }
+
+bool Animation::isEndOfAnimation()
+{
+    return (textures.size() - 1) <= currentFrame;
+}
