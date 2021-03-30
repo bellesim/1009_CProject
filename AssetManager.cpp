@@ -7,6 +7,13 @@ Texture AssetManager::getBackgroundTexture()
     return backgroundTexture;
 }
 
+Texture AssetManager::getMenuTexture()
+{
+    Texture backgroundTexture;
+    backgroundTexture.loadFromFile("images/mainMenu_bg.jpg");
+    return backgroundTexture;
+}
+
 vector<Texture> AssetManager::getSpaceshipTextures()
 {
     vector<Texture> spaceshipTextures;

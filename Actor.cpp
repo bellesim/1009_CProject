@@ -26,6 +26,7 @@ void Actor::keyPressed()
 {
     if (Keyboard::isKeyPressed(Keyboard::W))
         up = true;
+
     else
         up = false;
 
