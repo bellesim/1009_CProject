@@ -13,8 +13,8 @@ class GameOver
 {
 public:
     GameOver();
-    void run(RenderWindow &app, Event event, GameState &gameState);
-    void GameOverState(RenderWindow &app);
+    void run(RenderWindow &app, Event event, GameState &gameState, int endScore);
+    void GameOverState(RenderWindow &app, int endScore);
 
 private:
     Sprite background;

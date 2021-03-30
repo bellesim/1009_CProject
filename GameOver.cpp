@@ -5,7 +5,7 @@
 
 GameOver::GameOver() {}
 
-void GameOver ::GameOverState(RenderWindow &app)
+void GameOver ::GameOverState(RenderWindow &app, int endScore)
 {
     AssetManager assetManager;
 
@@ -57,12 +57,13 @@ void GameOver ::GameOverState(RenderWindow &app)
 
     title.setString("Ace Combat");
     label.setString("Your Score:");
+
     //////Get score
-    score.setString("5964");
+    score.setString(to_string(endScore));
     //////
     txtStart.setString("RESTART");
     txtEnd.setString("EXIT");
-    
+
     txtStart.setPosition(900.0f - buttonS.getLocalBounds().width, 570.0f);
     txtEnd.setPosition(930.0f - buttonS.getLocalBounds().width, 770.0f);
 
@@ -76,10 +77,10 @@ void GameOver ::GameOverState(RenderWindow &app)
     app.draw(txtEnd);
 }
 
-void GameOver::run(RenderWindow &app, Event event, GameState &gameState)
+void GameOver::run(RenderWindow &app, Event event, GameState &gameState, int endScore)
 {
     app.clear();
-    GameOverState(app);
+    GameOverState(app, endScore);
 
     while (app.pollEvent(event))
     {
