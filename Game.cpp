@@ -73,7 +73,7 @@ void Game::run()
         if (gameState == MAIN_MENU)
         {
             printf("Main menu\n");
-            pauseMenu.run(app, event, gameState);
+            menu.run(app, event, gameState);
         }
 
         else if (gameState == GAME_PLAY || gameState == GAME_REPLAY)
