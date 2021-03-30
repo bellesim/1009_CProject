@@ -10,7 +10,7 @@
 // ???
 // MAC
 // g++ main.cpp Animation.cpp Actor.cpp Spaceship.cpp AssetManager.cpp Game.cpp -o game -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
-// g++ main.cpp Animation.cpp Actor.cpp Projectile.cpp Spaceship.cpp AssetManager.cpp Game.cpp -o game -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
+// g++ main.cpp Animation.cpp Actor.cpp SoundMaster.cpp Projectile.cpp Spaceship.cpp AssetManager.cpp Game.cpp -o game -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
 Game::Game() : app(VideoMode(WIDTH, HEIGHT), "Ace Combat", Style::Default)
 {
     app.setFramerateLimit(60);
@@ -63,9 +63,6 @@ void Game::run()
     text.setFillColor(Color::Red);
     text.setPosition(30, 30);
 
-    // audio test section until more events to hook into are available
-    soundguy.playGameMusic();
-    // soundguy.playFire();
 
     while (app.isOpen())
     {
