@@ -17,7 +17,7 @@ void GameOver ::GameOverState(RenderWindow &app, int endScore)
     title.setFont(font);
     title.setCharacterSize(90);
     title.setFillColor(Color::Red);
-    title.setPosition(280, 100);
+    title.setPosition(300, 100);
 
     buttonS.setSize(sf::Vector2f(460.0f, 100.0f));
     buttonS.setPosition(300.0f, 560.0f);
@@ -55,7 +55,7 @@ void GameOver ::GameOverState(RenderWindow &app, int endScore)
     score.setFillColor(Color::Red);
     score.setPosition(650, 350);
 
-    title.setString("Ace Combat");
+    title.setString("Game Over");
     label.setString("Your Score:");
 
     //////Get score
@@ -64,7 +64,7 @@ void GameOver ::GameOverState(RenderWindow &app, int endScore)
     txtStart.setString("RESTART");
     txtEnd.setString("EXIT");
 
-    txtStart.setPosition(900.0f - buttonS.getLocalBounds().width, 570.0f);
+    txtStart.setPosition(890.0f - buttonS.getLocalBounds().width, 570.0f);
     txtEnd.setPosition(930.0f - buttonS.getLocalBounds().width, 770.0f);
 
     app.draw(background);

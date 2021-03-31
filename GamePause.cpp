@@ -17,7 +17,7 @@ void GamePause ::gamePauseState(RenderWindow &app)
     title.setFont(font);
     title.setCharacterSize(90);
     title.setFillColor(Color::Red);
-    title.setPosition(280, 100);
+    title.setPosition(250, 100);
 
     buttonC.setSize(sf::Vector2f(460.0f, 100.0f));
     buttonC.setPosition(300.0f, 560.0f);
@@ -43,7 +43,7 @@ void GamePause ::gamePauseState(RenderWindow &app)
     txtExit.setFillColor(Color::White);
     txtExit.setPosition(300.0f, 760.0f);
 
-    title.setString("GAME PAUSE");
+    title.setString("GAME PAUSED");
     txtExit.setString("EXIT");
     txtCont.setString("CONTINUE");
     txtCont.setPosition(870.0f - buttonC.getLocalBounds().width, 570.0f);
