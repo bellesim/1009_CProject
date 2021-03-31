@@ -88,7 +88,6 @@ void Game::run()
         if (gameState == MAIN_MENU)
         {
             // soundMaster.stopGameMusic();
-            printf("Main menu\n");
             menu.run(app, event, gameState);
         }
 
@@ -99,7 +98,6 @@ void Game::run()
                 endScore = spaceship->getScore();
                 gameState = GAME_OVER;
             }
-            printf("Game play\n");
 
             while (app.pollEvent(event))
             {
@@ -110,10 +108,8 @@ void Game::run()
 
                 if (Keyboard::isKeyPressed(Keyboard::Escape))
                 {
-                    printf("Esc button clicked");
                     gameState = GAME_PAUSE;
                 }
-
                 spaceship->keyPressed();
             }
             // Draw background.
@@ -122,13 +118,11 @@ void Game::run()
             // Handle enemies generation.
             if (enemies.size() < (TOTAL_ENEMIES / 10) * 8)
             {
-                printf("\ngen");
                 vector<Enemy *> newEnemies = Formation::generateRandomFormation((TOTAL_ENEMIES - enemies.size()),
                                                                                 enemyAnim, explosionAnim);
                 enemies.insert(enemies.end(), newEnemies.begin(), newEnemies.end());
             }
 
-            printf("\n enemies size %d", enemies.size());
             // Handle create enemy projectile and destroy.
             vector<Enemy *>::iterator enemyIt = enemies.begin();
             while (enemyIt != enemies.end())
@@ -177,7 +171,6 @@ void Game::run()
                     if (spaceship->isCollide(projectilePosition.getX(), projectilePosition.getY()))
                     {
                         soundMaster.playCollide();
-                        printf("PROJECTILE COLLIDED \n");
                         spaceship->deductHitPoint(1);
                         hit = true;
                     }
@@ -189,7 +182,6 @@ void Game::run()
                         if (enemy->isCollide(projectilePosition.getX(), projectilePosition.getY()))
                         {
                             soundMaster.playCollide();
-                            printf("ENEMY PROJECTILE COLLIDED \n");
                             spaceship->addToScore(50);
                             enemy->deductHitPoint(1);
                             hit = true;
@@ -214,7 +206,6 @@ void Game::run()
                 Position en = enemy->getPosition();
                 if (spaceship->isCollide(en.getX(), en.getY()))
                 {
-                    printf("\nenemy collide with spaceship");
                     spaceship->deductHitPoint(1);
                 }
             }
@@ -226,13 +217,11 @@ void Game::run()
 
         else if (gameState == GAME_PAUSE)
         {
-            printf("game paused\n");
             pauseMenu.run(app, event, gameState);
         }
 
         else if (gameState == GAME_OVER)
         {
-            printf("game over\n");
             overMenu.run(app, event, gameState, endScore);
 
             projectiles.clear();

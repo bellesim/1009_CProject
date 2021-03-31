@@ -64,7 +64,6 @@ void GamePause ::run(RenderWindow &app, Event event, GameState &gameState)
 
     while (app.pollEvent(event))
     {
-        printf("Pause polling\n");
         if (event.type == Event::Closed)
         {
             app.close();
@@ -74,15 +73,12 @@ void GamePause ::run(RenderWindow &app, Event event, GameState &gameState)
         {
             if (event.mouseButton.button == Mouse::Left)
             {
-                printf("Button left click\n");
                 if (buttonC.getGlobalBounds().contains(app.mapPixelToCoords(sf::Vector2i(event.mouseButton.x, event.mouseButton.y))))
                 {
-                    printf("Continue click\n");
                     gameState = GAME_PLAY;
                 }
                 else if (buttonE.getGlobalBounds().contains(app.mapPixelToCoords(sf::Vector2i(event.mouseButton.x, event.mouseButton.y))))
                 {
-                    printf("Exit click\n");
                     app.close();
                 }
             }

@@ -5,13 +5,6 @@
 #include <chrono>
 #include <thread>
 
-// temporary to print out the States of spaceship
-ostream &operator<<(ostream &strm, Status tt)
-{
-    const string nameTT[] = {"ALIVE", "INVULNERABLE", "EXPLODING", "DEAD"};
-    return strm << nameTT[tt];
-}
-
 Spaceship::Spaceship()
 {
     hitPoints = 2;
@@ -76,7 +69,7 @@ void Spaceship::updateAnimation(RenderWindow &app)
     }
     else if (currentStatus == EXPLODING)
     {
-         Position newPosition = position;
+        Position newPosition = position;
         newPosition.addToX(-75);
         newPosition.addToY(-75);
         explosionAnimation.setSpritePosition(newPosition);
@@ -103,7 +96,6 @@ void Spaceship::draw(RenderWindow &app)
 
         if (explosionAnimation.isEndOfAnimation())
         {
-            printf("\nis dead");
             currentStatus = DEAD;
         }
     }
@@ -118,13 +110,11 @@ void Spaceship::deductHitPoint(int hit)
 
         if (hitPoints < 1)
         {
-            // shld be explode.
+            // When no more HP ships explodes
             currentStatus = EXPLODING;
-            std::cout << currentStatus << std::endl;
         }
         else
         {
-            printf("\n GOING INVULNERABLE");
             currentStatus = INVULNERABLE;
         }
     }
@@ -132,7 +122,8 @@ void Spaceship::deductHitPoint(int hit)
     {
         thread t([this]() {
             this_thread::sleep_for(chrono::seconds(3));
-            currentStatus = ALIVE;
+            if (currentStatus != EXPLODING)
+                currentStatus = ALIVE;
         });
         t.detach();
     }

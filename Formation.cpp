@@ -128,8 +128,6 @@ vector<Position *> Formation::generateDiagonalLeft()
         positions.push_back(new Position(Game::WIDTH - 350, 400));
     }
     return positions;
-
-    return positions;
 }
 
 vector<Position *> Formation::generateDiagonalRight()
@@ -154,7 +152,5 @@ vector<Position *> Formation::generateDiagonalRight()
         positions.push_back(new Position(100, 150));
         positions.push_back(new Position(350, 400));
     }
-    return positions;
-
     return positions;
 }

@@ -64,7 +64,6 @@ void MainMenu::run(RenderWindow &app, Event event, GameState &gameState)
 
     while (app.pollEvent(event))
     {
-        printf("Main menu polling\n");
         if (event.type == Event::Closed)
         {
             app.close();
@@ -76,12 +75,10 @@ void MainMenu::run(RenderWindow &app, Event event, GameState &gameState)
             {
                 if (buttonS.getGlobalBounds().contains(app.mapPixelToCoords(sf::Vector2i(event.mouseButton.x, event.mouseButton.y))))
                 {
-                    printf("Start click\n");
                     gameState = GAME_PLAY;
                 }
                 else if (buttonE.getGlobalBounds().contains(app.mapPixelToCoords(sf::Vector2i(event.mouseButton.x, event.mouseButton.y))))
                 {
-                    printf("exit click\n");
                     app.close();
                 }
             }

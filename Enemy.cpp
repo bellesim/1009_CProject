@@ -58,13 +58,11 @@ void Enemy::updateAnimation(RenderWindow &app)
 
 void Enemy::draw(RenderWindow &app)
 {
-    printf("\n draw in enemy");
     if (currentStatus == ALIVE || currentStatus == EXPLODING)
     {
         updateAnimation(app);
         if (explosionAnimation.isEndOfAnimation())
         {
-            printf("\nis dead");
             currentStatus = DEAD;
         }
     }

@@ -84,7 +84,6 @@ void GameOver::run(RenderWindow &app, Event event, GameState &gameState, int end
 
     while (app.pollEvent(event))
     {
-        printf("GameOver menu polling\n");
         if (event.type == Event::Closed)
         {
             app.close();
@@ -94,15 +93,12 @@ void GameOver::run(RenderWindow &app, Event event, GameState &gameState, int end
         {
             if (event.mouseButton.button == Mouse::Left)
             {
-                printf("Button left click\n");
                 if (buttonS.getGlobalBounds().contains(app.mapPixelToCoords(sf::Vector2i(event.mouseButton.x, event.mouseButton.y))))
                 {
-                    printf("Restart click\n");
                     gameState = GAME_PLAY;
                 }
                 else if (buttonE.getGlobalBounds().contains(app.mapPixelToCoords(sf::Vector2i(event.mouseButton.x, event.mouseButton.y))))
                 {
-                    printf("Exit click\n");
                     app.close();
                 }
             }
