@@ -29,6 +29,7 @@ void Game::run()
 
     SoundMaster soundMaster;
     soundMaster.playGameMusic();
+
     Texture backgroundTexture = assetManager.getBackgroundTexture();
     background.setTexture(backgroundTexture);
 
@@ -87,7 +88,6 @@ void Game::run()
         Event event;
         if (gameState == MAIN_MENU)
         {
-            // soundMaster.stopGameMusic();
             menu.run(app, event, gameState);
         }
 
@@ -123,28 +123,30 @@ void Game::run()
                 enemies.insert(enemies.end(), newEnemies.begin(), newEnemies.end());
             }
 
-            // Handle create enemy projectile and destroy.
-            vector<Enemy *>::iterator enemyIt = enemies.begin();
-            while (enemyIt != enemies.end())
+            // Handle enemies projectile, collision with spaceship and draw.
+            vector<Enemy *>::iterator enemy = enemies.begin();
+            while (enemy != enemies.end())
             {
-                Projectile *enemyProjectile = (*enemyIt)->shoot(enemyProjectileAnim);
+                Projectile *enemyProjectile = (*enemy)->shoot(enemyProjectileAnim);
                 if (enemyProjectile != NULL)
                 {
                     soundMaster.playFire();
                     projectiles.push_back(enemyProjectile);
                 }
 
-                // Draw enemy.
-                (*enemyIt)->draw(app);
-                (*enemyIt)->update();
+                Position en = (*enemy)->getPosition();
+                if (spaceship->isCollide(en.getX(), en.getY()) && spaceship->getCurrentStatus() == ALIVE)
+                    spaceship->deductHitPoint(1);
 
-                // Destroy enemy less than 0.
-                if ((*enemyIt)->getCurrentStatus() == DEAD)
-                {
-                    enemyIt = enemies.erase(enemyIt);
-                }
+                if ((*enemy)->getCurrentStatus() == DEAD)
+                    enemy = enemies.erase(enemy);
                 else
-                    ++enemyIt;
+                {
+                    // Draw enemy.
+                    (*enemy)->draw(app);
+                    (*enemy)->update();
+                    ++enemy;
+                }
             }
 
             // Shoot only when spaceship is alive.
@@ -154,6 +156,10 @@ void Game::run()
                 if (projectile != NULL)
                     projectiles.push_back(projectile);
             }
+
+            // Draw spaceship.
+            spaceship->draw(app);
+            spaceship->update();
 
             // Draw all projectile.
             vector<Projectile *>::iterator projectileIt = projectiles.begin();
@@ -166,15 +172,18 @@ void Game::run()
 
                 Position projectilePosition = (*projectileIt)->getPosition();
 
+                // Hit spaceship.
                 if ((*projectileIt)->getOrigin() == "enemy" && !hit)
                 {
-                    if (spaceship->isCollide(projectilePosition.getX(), projectilePosition.getY()))
+                    if (spaceship->isCollide(projectilePosition.getX(), projectilePosition.getY()) && spaceship->getCurrentStatus() == ALIVE)
                     {
                         soundMaster.playCollide();
                         spaceship->deductHitPoint(1);
                         hit = true;
                     }
                 }
+
+                // Hit enemy.
                 else if ((*projectileIt)->getOrigin() == "spaceship" && !hit)
                 {
                     for (Enemy *enemy : enemies)
@@ -194,20 +203,6 @@ void Game::run()
                     projectileIt = projectiles.erase(projectileIt);
                 else
                     ++projectileIt;
-            }
-
-            // Draw spaceship.
-            spaceship->draw(app);
-            spaceship->update();
-
-            //detect collision with enemy.
-            for (Enemy *enemy : enemies)
-            {
-                Position en = enemy->getPosition();
-                if (spaceship->isCollide(en.getX(), en.getY()))
-                {
-                    spaceship->deductHitPoint(1);
-                }
             }
 
             text.setString("Hit points left: " + to_string(spaceship->getHitPoints()) +

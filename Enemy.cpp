@@ -3,6 +3,7 @@
 
 Enemy::Enemy()
 {
+    type = ENEMY;
     hitPoints = 1;
     speed = 5;
     currentReloadCounter = 0;

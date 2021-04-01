@@ -7,6 +7,7 @@
 
 Spaceship::Spaceship()
 {
+    type = SPACESHIP;
     hitPoints = 2;
     score = 0;
     currentReloadCounter = 0;
@@ -110,16 +111,16 @@ void Spaceship::deductHitPoint(int hit)
         if (hitPoints < 1)
             currentStatus = EXPLODING;
         else
+        {
             currentStatus = INVULNERABLE;
-    }
-    else if (currentStatus == INVULNERABLE)
-    {
-        thread t([this]() {
-            this_thread::sleep_for(chrono::seconds(3));
-            if (currentStatus != EXPLODING)
-                currentStatus = ALIVE;
-        });
-        t.detach();
+            thread t([this]() {
+                this_thread::sleep_for(chrono::seconds(3));
+
+                if (currentStatus != EXPLODING)
+                    currentStatus = ALIVE;
+            });
+            t.detach();
+        }
     }
 }
 

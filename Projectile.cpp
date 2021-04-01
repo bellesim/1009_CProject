@@ -6,6 +6,7 @@ Projectile ::Projectile()
 
 Projectile::Projectile(bool up, bool down, bool left, bool right, int speed, string origin)
 {
+    type = PROJECTILE;
     this->up = up;
     this->down = down;
     this->left = left;

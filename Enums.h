@@ -16,3 +16,10 @@ enum GameState
     GAME_OVER,
     GAME_REPLAY
 };
+
+enum ActorType
+{
+    ENEMY,
+    SPACESHIP,
+    PROJECTILE
+};
