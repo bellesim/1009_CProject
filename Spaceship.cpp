@@ -95,9 +95,7 @@ void Spaceship::draw(RenderWindow &app)
         updateAnimation(app);
 
         if (explosionAnimation.isEndOfAnimation())
-        {
             currentStatus = DEAD;
-        }
     }
 }
 
@@ -108,15 +106,11 @@ void Spaceship::deductHitPoint(int hit)
     {
         hitPoints -= hit;
 
+        // When no more HP ships explodes
         if (hitPoints < 1)
-        {
-            // When no more HP ships explodes
             currentStatus = EXPLODING;
-        }
         else
-        {
             currentStatus = INVULNERABLE;
-        }
     }
     else if (currentStatus == INVULNERABLE)
     {
@@ -132,8 +126,7 @@ void Spaceship::deductHitPoint(int hit)
 int Spaceship::getHitPoints()
 {
     if (hitPoints < 0)
-    {
         hitPoints = 0;
-    }
+
     return hitPoints;
 }

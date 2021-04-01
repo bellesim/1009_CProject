@@ -9,37 +9,26 @@ vector<Enemy *> Formation::generateRandomFormation(int count, Animation &enemyAn
     vector<Enemy *> enemies;
 
     if (rand() % 4 + 1 != 1)
-    {
         return enemies;
-    }
 
     int randomFormation = rand() % 4 + 1;
     vector<Position *> positions;
 
     if (randomFormation == 1)
-    {
         positions = generateHorizontalLeft();
-    }
+
     else if (randomFormation == 2)
-    {
         positions = generateHorizontalRight();
-    }
 
     else if (randomFormation == 3)
-    {
         positions = generateDiagonalLeft();
-    }
 
     else if (randomFormation == 4)
-    {
         positions = generateDiagonalRight();
-    }
 
     int randomEnemyCount = rand() % (count / 4) + 1;
     if (randomEnemyCount > 5)
-    {
         randomEnemyCount = 5;
-    }
 
     int space = -50;
     int startX = ((rand() % 1000 + 1) + 4) / 5 * 5;
@@ -127,6 +116,7 @@ vector<Position *> Formation::generateDiagonalLeft()
         positions.push_back(new Position(Game::WIDTH - 100, 150));
         positions.push_back(new Position(Game::WIDTH - 350, 400));
     }
+
     return positions;
 }
 
@@ -152,5 +142,6 @@ vector<Position *> Formation::generateDiagonalRight()
         positions.push_back(new Position(100, 150));
         positions.push_back(new Position(350, 400));
     }
+    
     return positions;
 }

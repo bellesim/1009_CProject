@@ -26,7 +26,6 @@ void Actor::keyPressed()
 {
     if (Keyboard::isKeyPressed(Keyboard::W))
         up = true;
-
     else
         up = false;
 
@@ -110,9 +109,8 @@ bool Actor::isCollide(int x, int y)
     if (x >= position.getX() && x <= position.getX() + this->getWidth())
     {
         if (y >= position.getY() && y <= position.getY() + this->getHeight())
-        {
             return true;
-        }
     }
+    
     return false;
 }

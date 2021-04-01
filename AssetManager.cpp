@@ -123,8 +123,7 @@ Font AssetManager::getFont()
 {
     Font font;
     if (!font.loadFromFile("fonts/ocraextended.ttf"))
-    {
         printf("error");
-    }
+
     return font;
 }

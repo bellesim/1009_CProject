@@ -34,11 +34,10 @@ void Projectile::update()
 
     if (position.getX() > 1050 || position.getX() < 0 ||
         position.getY() > 1150 || position.getY() < 0)
-    {
         hitPoints = 0;
-    }
 }
 
-string Projectile::getOrigin(){
+string Projectile::getOrigin()
+{
     return origin;
 }

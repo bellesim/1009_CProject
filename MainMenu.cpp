@@ -65,22 +65,18 @@ void MainMenu::run(RenderWindow &app, Event event, GameState &gameState)
     while (app.pollEvent(event))
     {
         if (event.type == Event::Closed)
-        {
             app.close();
-        }
+
         // For mouse pressed.
         if (event.type == Event::MouseButtonPressed)
         {
             if (event.mouseButton.button == Mouse::Left)
             {
                 if (buttonS.getGlobalBounds().contains(app.mapPixelToCoords(sf::Vector2i(event.mouseButton.x, event.mouseButton.y))))
-                {
                     gameState = GAME_PLAY;
-                }
+                    
                 else if (buttonE.getGlobalBounds().contains(app.mapPixelToCoords(sf::Vector2i(event.mouseButton.x, event.mouseButton.y))))
-                {
                     app.close();
-                }
             }
         }
     }

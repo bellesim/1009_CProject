@@ -19,17 +19,13 @@ Projectile *Enemy::shoot(Animation projectileAnim)
 
         int shootDirection = rand() % (3) + 1;
         if (shootDirection == 1)
-        {
             projectile = new Projectile(false, true, false, false, 5, "enemy");
-        }
+
         else if (shootDirection == 2)
-        {
             projectile = new Projectile(false, true, true, false, 5, "enemy");
-        }
+
         else
-        {
             projectile = new Projectile(false, true, false, true, 5, "enemy");
-        }
 
         projectile->settings(projectileAnim, *this);
         return projectile;
@@ -62,9 +58,7 @@ void Enemy::draw(RenderWindow &app)
     {
         updateAnimation(app);
         if (explosionAnimation.isEndOfAnimation())
-        {
             currentStatus = DEAD;
-        }
     }
 }
 
@@ -81,9 +75,7 @@ void Enemy::deductHitPoint(int hit)
     {
         hitPoints -= hit;
         if (hitPoints < 1)
-        {
             currentStatus = EXPLODING;
-        }
     }
 }
 
@@ -94,40 +86,24 @@ void Enemy::update()
         vector<char> directions = this->position - this->positions[0];
 
         if (find(directions.begin(), directions.end(), 'u') != directions.end())
-        {
             up = true;
-        }
         else
-        {
             up = false;
-        }
 
         if (find(directions.begin(), directions.end(), 'd') != directions.end())
-        {
             down = true;
-        }
         else
-        {
             down = false;
-        }
 
         if (find(directions.begin(), directions.end(), 'l') != directions.end())
-        {
             left = true;
-        }
         else
-        {
             left = false;
-        }
 
         if (find(directions.begin(), directions.end(), 'r') != directions.end())
-        {
             right = true;
-        }
         else
-        {
             right = false;
-        }
 
         if (find(directions.begin(), directions.end(), 'c') != directions.end())
         {
