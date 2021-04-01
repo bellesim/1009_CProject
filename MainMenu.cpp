@@ -5,7 +5,7 @@
 
 MainMenu::MainMenu() {}
 
-void MainMenu ::mainMenuState(RenderWindow &app)
+void MainMenu ::state(RenderWindow &app)
 {
     AssetManager assetManager;
 
@@ -60,7 +60,7 @@ void MainMenu ::mainMenuState(RenderWindow &app)
 void MainMenu::run(RenderWindow &app, Event event, GameState &gameState)
 {
     app.clear();
-    mainMenuState(app);
+    state(app);
 
     while (app.pollEvent(event))
     {

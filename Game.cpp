@@ -9,14 +9,11 @@
 #include "MainMenu.h"
 #include "GamePause.h"
 #include "GameOver.h"
-#include "SoundMaster.h"
 
 // WINDOWS
 // ???
 // MAC
-// g++ -std=c++11 main.cpp SoundMaster.cpp MainMenu.cpp GamePause.cpp GameOver.cpp Animation.cpp Position.cpp Actor.cpp Projectile.cpp Enemy.cpp Formation.cpp Spaceship.cpp AssetManager.cpp Game.cpp -o game -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
-// g++ main.cpp Animation.cpp Actor.cpp Spaceship.cpp AssetManager.cpp Game.cpp -o game -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
-// g++ main.cpp Animation.cpp Actor.cpp SoundMaster.cpp Projectile.cpp Spaceship.cpp AssetManager.cpp Game.cpp -o game -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
+// g++ -std=c++11 main.cpp MainMenu.cpp GamePause.cpp GameOver.cpp Animation.cpp Position.cpp Actor.cpp AliveObject.cpp Projectile.cpp Enemy.cpp Formation.cpp Spaceship.cpp AssetManager.cpp Game.cpp -o game -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
 Game::Game() : app(VideoMode(WIDTH, HEIGHT), "Ace Combat", Style::Default)
 {
     app.setFramerateLimit(60);
@@ -27,8 +24,7 @@ void Game::run()
     AssetManager assetManager;
     GameState gameState = MAIN_MENU;
 
-    SoundMaster soundMaster;
-    soundMaster.playGameMusic();
+    assetManager.playGameMusic();
 
     Texture backgroundTexture = assetManager.getBackgroundTexture();
     background.setTexture(backgroundTexture);
@@ -66,8 +62,8 @@ void Game::run()
     spaceship->settings(spaceshipAnim, leftSpaceshipAnim, rightSpaceshipAnim, explosionAnim,
                         (WIDTH + 20) / 2, ((HEIGHT + 20) / 4) * 3);
 
+    // Array of projectiles and enemies.
     vector<Projectile *> projectiles;
-
     vector<Enemy *> enemies;
 
     // Setting up font for score and life.
@@ -78,6 +74,7 @@ void Game::run()
     text.setFillColor(Color::Red);
     text.setPosition(30, 30);
 
+    // Set different state screen.
     MainMenu menu;
     GamePause pauseMenu;
     GameOver overMenu;
@@ -91,7 +88,7 @@ void Game::run()
             menu.run(app, event, gameState);
         }
 
-        else if (gameState == GAME_PLAY || gameState == GAME_REPLAY)
+        else if (gameState == GAME_PLAY)
         {
             if (spaceship->getCurrentStatus() == DEAD)
             {
@@ -130,7 +127,7 @@ void Game::run()
                 Projectile *enemyProjectile = (*enemy)->shoot(enemyProjectileAnim);
                 if (enemyProjectile != NULL)
                 {
-                    soundMaster.playFire();
+                    assetManager.playFire();
                     projectiles.push_back(enemyProjectile);
                 }
 
@@ -173,24 +170,24 @@ void Game::run()
                 Position projectilePosition = (*projectileIt)->getPosition();
 
                 // Hit spaceship.
-                if ((*projectileIt)->getOrigin() == "enemy" && !hit)
+                if ((*projectileIt)->getOrigin() == ENEMY && !hit)
                 {
                     if (spaceship->isCollide(projectilePosition.getX(), projectilePosition.getY()) && spaceship->getCurrentStatus() == ALIVE)
                     {
-                        soundMaster.playCollide();
+                        assetManager.playCollide();
                         spaceship->deductHitPoint(1);
                         hit = true;
                     }
                 }
 
                 // Hit enemy.
-                else if ((*projectileIt)->getOrigin() == "spaceship" && !hit)
+                else if ((*projectileIt)->getOrigin() == SPACESHIP && !hit)
                 {
                     for (Enemy *enemy : enemies)
                     {
                         if (enemy->isCollide(projectilePosition.getX(), projectilePosition.getY()))
                         {
-                            soundMaster.playCollide();
+                            assetManager.playDie();
                             spaceship->addToScore(50);
                             enemy->deductHitPoint(1);
                             hit = true;
@@ -217,14 +214,17 @@ void Game::run()
 
         else if (gameState == GAME_OVER)
         {
-            overMenu.run(app, event, gameState, endScore);
-
+            overMenu.run(app, event, gameState);
+            overMenu.setEndScore(spaceship->getScore());
+        }
+        else if (gameState == GAME_REPLAY)
+        {
+            printf("ihihihih\n");
             projectiles.clear();
             enemies.clear();
-            spaceship = new Spaceship();
-
             spaceship->settings(spaceshipAnim, leftSpaceshipAnim, rightSpaceshipAnim, explosionAnim,
                                 (WIDTH + 20) / 2, ((HEIGHT + 20) / 4) * 3);
+            gameState = GAME_PLAY;
         }
 
         app.display();

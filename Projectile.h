@@ -5,11 +5,12 @@
 class Projectile : public Actor
 {
 private:
-    string origin;
+    ActorType origin;
+
 public:
     Projectile();
-    Projectile(bool up, bool down, bool left, bool right, int speed,string origin);
+    Projectile(bool up, bool down, bool left, bool right, int speed, ActorType origin);
     void update();
     void settings(Animation &a, Actor &actor);
-    string getOrigin();
+    ActorType getOrigin();
 };

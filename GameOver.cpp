@@ -5,7 +5,7 @@
 
 GameOver::GameOver() {}
 
-void GameOver ::GameOverState(RenderWindow &app, int endScore)
+void GameOver ::state(RenderWindow &app)
 {
     AssetManager assetManager;
 
@@ -77,10 +77,10 @@ void GameOver ::GameOverState(RenderWindow &app, int endScore)
     app.draw(txtEnd);
 }
 
-void GameOver::run(RenderWindow &app, Event event, GameState &gameState, int endScore)
+void GameOver::run(RenderWindow &app, Event event, GameState &gameState)
 {
     app.clear();
-    GameOverState(app, endScore);
+    state(app);
 
     while (app.pollEvent(event))
     {
@@ -93,11 +93,16 @@ void GameOver::run(RenderWindow &app, Event event, GameState &gameState, int end
             if (event.mouseButton.button == Mouse::Left)
             {
                 if (buttonS.getGlobalBounds().contains(app.mapPixelToCoords(sf::Vector2i(event.mouseButton.x, event.mouseButton.y))))
-                    gameState = GAME_PLAY;
-               
+                    gameState = GAME_REPLAY;
+
                 else if (buttonE.getGlobalBounds().contains(app.mapPixelToCoords(sf::Vector2i(event.mouseButton.x, event.mouseButton.y))))
                     app.close();
             }
         }
     }
+}
+
+void GameOver::setEndScore(int endScore)
+{
+    this->endScore = endScore;
 }

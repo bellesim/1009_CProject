@@ -5,16 +5,17 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include "Enums.h"
+#include "State.h"
 
 using namespace std;
 using namespace sf;
 
-class MainMenu
+class MainMenu : public State
 {
 public:
     MainMenu();
     void run(RenderWindow &app, Event event, GameState &gameState);
-    void mainMenuState(RenderWindow &app);
+    void state(RenderWindow &app);
 
 private:
     Sprite background;

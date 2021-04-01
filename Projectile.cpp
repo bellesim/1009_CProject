@@ -4,7 +4,7 @@ Projectile ::Projectile()
 {
 }
 
-Projectile::Projectile(bool up, bool down, bool left, bool right, int speed, string origin)
+Projectile::Projectile(bool up, bool down, bool left, bool right, int speed, ActorType origin)
 {
     type = PROJECTILE;
     this->up = up;
@@ -38,7 +38,7 @@ void Projectile::update()
         hitPoints = 0;
 }
 
-string Projectile::getOrigin()
+ActorType Projectile::getOrigin()
 {
     return origin;
 }

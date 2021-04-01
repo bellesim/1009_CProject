@@ -5,24 +5,19 @@
 #include <chrono>
 #include <thread>
 
-Spaceship::Spaceship()
-{
-    type = SPACESHIP;
-    hitPoints = 2;
-    score = 0;
-    currentReloadCounter = 0;
-    reloadCounter = 10;
-    currentStatus = ALIVE;
-    blinkCounter = 0;
-    blinkTime = 3;
-}
+Spaceship::Spaceship() {}
 
 void Spaceship::settings(Animation &a, Animation &l, Animation &r, Animation &e, int x, int y)
 {
-    Actor::settings(a, x, y);
+    AliveObject::settings(a, e, x, y, 10, 3);
+    type = SPACESHIP;
     leftAnimation = l;
     rightAnimation = r;
     explosionAnimation = e;
+    currentStatus = ALIVE;
+    blinkCounter = 0;
+    blinkTime = 3;
+    score = 0;
 }
 
 void Spaceship::addToScore(int score)
@@ -37,16 +32,8 @@ int Spaceship::getScore()
 
 Projectile *Spaceship::shoot(Animation projectileAnim)
 {
-    if (currentReloadCounter >= reloadCounter)
-    {
-        Projectile *projectile = new Projectile(true, false, false, false, 12, "spaceship");
-        projectile->settings(projectileAnim, *this);
-        currentReloadCounter = 0;
-        return projectile;
-    }
-
-    currentReloadCounter++;
-    return NULL;
+    Projectile *projectile = AliveObject::shoot(projectileAnim, true, false, false, false, 12, SPACESHIP);
+    return projectile;
 }
 
 void Spaceship::updateAnimation(RenderWindow &app)
@@ -107,7 +94,7 @@ void Spaceship::deductHitPoint(int hit)
     {
         hitPoints -= hit;
 
-        // When no more HP ships explodes
+        // When no more HP ships explodes.
         if (hitPoints < 1)
             currentStatus = EXPLODING;
         else

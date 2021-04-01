@@ -1,16 +1,15 @@
-#include "Actor.h"
+#pragma once
+
+#include "AliveObject.h"
 
 class Projectile;
 
-class Spaceship : public Actor
+class Spaceship : public AliveObject
 {
 private:
     int score;
     Animation leftAnimation;
     Animation rightAnimation;
-    Animation explosionAnimation;
-    int reloadCounter;
-    int currentReloadCounter;
     int blinkCounter;
     int blinkTime;
     void updateAnimation(RenderWindow &);

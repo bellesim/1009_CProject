@@ -5,7 +5,7 @@
 
 GamePause::GamePause() {}
 
-void GamePause ::gamePauseState(RenderWindow &app)
+void GamePause ::state(RenderWindow &app)
 {
     AssetManager assetManager;
 
@@ -60,7 +60,7 @@ void GamePause ::gamePauseState(RenderWindow &app)
 void GamePause ::run(RenderWindow &app, Event event, GameState &gameState)
 {
     app.clear();
-    gamePauseState(app);
+    state(app);
 
     while (app.pollEvent(event))
     {

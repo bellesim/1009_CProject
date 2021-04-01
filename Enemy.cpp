@@ -1,40 +1,30 @@
 #include "Enemy.h"
 #include "Projectile.h"
 
-Enemy::Enemy()
+void Enemy::settings(Animation &a, Animation &e, vector<Position *> positions, int x, int y)
 {
-    type = ENEMY;
-    hitPoints = 1;
+    this->positions = positions;
+    AliveObject::settings(a, e, x, y, rand() % 50 + 50, 1);
     speed = 5;
-    currentReloadCounter = 0;
-    reloadCounter = rand() % 50 + 50;
+    type = ENEMY;
     currentStatus = ALIVE;
 }
 
 Projectile *Enemy::shoot(Animation projectileAnim)
 {
-    if (currentReloadCounter >= reloadCounter)
-    {
-        currentReloadCounter = 0;
-        Projectile *projectile;
+    Projectile *projectile;
+    int shootDirection = rand() % (3) + 1;
 
-        int shootDirection = rand() % (3) + 1;
-        if (shootDirection == 1)
-            projectile = new Projectile(false, true, false, false, 5, "enemy");
+    if (shootDirection == 1)
+        projectile = AliveObject::shoot(projectileAnim, false, true, false, false, 5, ENEMY);
 
-        else if (shootDirection == 2)
-            projectile = new Projectile(false, true, true, false, 5, "enemy");
+    else if (shootDirection == 2)
+        projectile = AliveObject::shoot(projectileAnim, false, true, true, false, 5, ENEMY);
 
-        else
-            projectile = new Projectile(false, true, false, true, 5, "enemy");
+    else
+        projectile = AliveObject::shoot(projectileAnim, false, true, false, true, 5, ENEMY);
 
-        projectile->settings(projectileAnim, *this);
-        return projectile;
-    }
-
-    currentReloadCounter++;
-
-    return NULL;
+    return projectile;
 }
 
 void Enemy::updateAnimation(RenderWindow &app)
@@ -58,23 +48,18 @@ void Enemy::draw(RenderWindow &app)
     if (currentStatus == ALIVE || currentStatus == EXPLODING)
     {
         updateAnimation(app);
+
         if (explosionAnimation.isEndOfAnimation())
             currentStatus = DEAD;
     }
-}
-
-void Enemy::settings(Animation &a, Animation &e, vector<Position *> positions, int x, int y)
-{
-    this->positions = positions;
-    explosionAnimation = e;
-    Actor::settings(a, x, y);
 }
 
 void Enemy::deductHitPoint(int hit)
 {
     if (currentStatus == ALIVE)
     {
-        hitPoints -= hit;
+        hitPoints = hitPoints - hit;
+
         if (hitPoints < 1)
             currentStatus = EXPLODING;
     }
