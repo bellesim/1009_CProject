@@ -23,7 +23,6 @@ private:
 
 public:
     AliveObject();
-    virtual void draw(RenderWindow &app) = 0;
     Status getCurrentStatus();
     void setCurrentStatus(Status currentStatus);
 };

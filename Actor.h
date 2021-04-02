@@ -20,12 +20,10 @@ private:
 public:
     ActorType type;
     Actor();
-    virtual void settings(Animation &a, int x, int y);
+    void settings(Animation &a, int x, int y);
     void draw(RenderWindow &app);
     void keyPressed();
     void update();
-    int getHitPoints();
     Position getPosition();
     bool isCollide(int x, int y);
-    void deductHitPoint(int hit);
 };

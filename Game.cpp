@@ -83,17 +83,12 @@ void Game::run()
     {
         Event event;
         if (gameState == MAIN_MENU)
-        {
             menu.run(app, event, gameState);
-        }
 
         else if (gameState == GAME_PLAY)
         {
-            printf("projectile size: %d\n", projectiles.size());
             if (spaceship->getCurrentStatus() == DEAD)
-            {
                 gameState = GAME_OVER;
-            }
 
             while (app.pollEvent(event))
             {
@@ -212,9 +207,7 @@ void Game::run()
         }
 
         else if (gameState == GAME_PAUSE)
-        {
             pauseMenu.run(app, event, gameState);
-        }
 
         else if (gameState == GAME_OVER)
         {
