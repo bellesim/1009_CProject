@@ -3,6 +3,7 @@
 #include "Animation.h"
 #include "Position.h"
 #include "Enums.h"
+
 using namespace std;
 using namespace sf;
 

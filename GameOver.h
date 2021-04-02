@@ -12,15 +12,15 @@ using namespace sf;
 
 class GameOver : public State
 {
-public:
-    GameOver();
-    void run(RenderWindow &app, Event event, GameState &gameState);
-    void state(RenderWindow &app);
-    void setEndScore(int score);
-
 private:
     int endScore;
     Sprite background;
     RectangleShape buttonS;
     RectangleShape buttonE;
+
+public:
+    GameOver();
+    void run(RenderWindow &app, Event event, GameState &gameState);
+    void state(RenderWindow &app);
+    void setEndScore(int score);
 };

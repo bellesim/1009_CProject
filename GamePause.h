@@ -12,14 +12,13 @@ using namespace sf;
 
 class GamePause : public State
 {
-public:
-    GamePause();
-    void run(RenderWindow &app, Event event, GameState &gameState);
-    void state(RenderWindow &app);
-
 private:
     Sprite background;
     RectangleShape buttonC;
     RectangleShape buttonE;
 
+public:
+    GamePause();
+    void run(RenderWindow &app, Event event, GameState &gameState);
+    void state(RenderWindow &app);
 };

@@ -1,7 +1,7 @@
 #include "Formation.h"
 #include "Game.h"
 
-Formation::Formation() {}
+
 
 vector<Enemy *> Formation::generateRandomFormation(int count, Animation &enemyAnim,
                                                    Animation &explosionAnim)

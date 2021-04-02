@@ -1,7 +1,5 @@
 #include "Spaceship.h"
 #include "Projectile.h"
-#include "Enums.h"
-#include <iostream>
 #include <chrono>
 #include <thread>
 

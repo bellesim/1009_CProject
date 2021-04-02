@@ -10,27 +10,6 @@ using namespace sf;
 
 class AssetManager
 {
-public:
-    AssetManager();
-
-    void playGameMusic();
-    void playFire();
-    void playDie();
-    void playCollide();
-
-    Texture getBackgroundTexture();
-    Texture getMenuTexture();
-    vector<Texture> getSpaceshipTextures();
-    vector<Texture> getSpaceshipLeftTextures();
-    vector<Texture> getSpaceshipRightTextures();
-    vector<Texture> getEnemyTextures();
-    vector<Texture> getExplosionTextures();
-    vector<Texture> getSpaceshipProjectileTextures();
-    vector<Texture> getEnemyProjectileTextures();
-    vector<Texture> getRockTextures();
-
-    Font getFont();
-
 private:
     Music gamemusic;
     SoundBuffer efire;
@@ -55,4 +34,25 @@ private:
     vector<Texture> enemyProjectileTextures;
 
     Font font;
+
+public:
+    AssetManager();
+
+    void playGameMusic();
+    void playFire();
+    void playDie();
+    void playCollide();
+
+    Texture getBackgroundTexture();
+    Texture getMenuTexture();
+    vector<Texture> getSpaceshipTextures();
+    vector<Texture> getSpaceshipLeftTextures();
+    vector<Texture> getSpaceshipRightTextures();
+    vector<Texture> getEnemyTextures();
+    vector<Texture> getExplosionTextures();
+    vector<Texture> getSpaceshipProjectileTextures();
+    vector<Texture> getEnemyProjectileTextures();
+    vector<Texture> getRockTextures();
+
+    Font getFont();
 };

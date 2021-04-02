@@ -78,7 +78,6 @@ void Game::run()
     MainMenu menu;
     GamePause pauseMenu;
     GameOver overMenu;
-    int endScore;
 
     while (app.isOpen())
     {
@@ -93,7 +92,6 @@ void Game::run()
             printf("projectile size: %d\n", projectiles.size());
             if (spaceship->getCurrentStatus() == DEAD)
             {
-                endScore = spaceship->getScore();
                 gameState = GAME_OVER;
             }
 
@@ -134,7 +132,11 @@ void Game::run()
 
                 Position en = (*enemy)->getPosition();
                 if (spaceship->isCollide(en.getX(), en.getY()) && spaceship->getCurrentStatus() == ALIVE)
+                {
+                    assetManager.playCollide();
+                    (*enemy)->deductHitPoint(1);
                     spaceship->deductHitPoint(1);
+                }
 
                 if ((*enemy)->getCurrentStatus() == DEAD)
                     enemy = enemies.erase(enemy);

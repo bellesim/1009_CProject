@@ -13,6 +13,5 @@ public:
     void update();
     void settings(Animation &a, Actor &actor);
     bool outOfScreen();
-
     ActorType getOrigin();
 };

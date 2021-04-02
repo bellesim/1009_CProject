@@ -3,7 +3,7 @@
 #include "AssetManager.h"
 #include "Enums.h"
 
-GameOver::GameOver() {}
+GameOver::GameOver() { endScore = 0; }
 
 void GameOver ::state(RenderWindow &app)
 {

@@ -24,5 +24,4 @@ public:
     bool up, down, left, right;
     Game();
     void run();
-    // friend vector<Enemy> operator+=(vector<Enemy> &enemiesA, const vector<Enemy> &enemiesB);
 };
