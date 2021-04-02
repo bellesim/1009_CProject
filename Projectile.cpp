@@ -11,7 +11,6 @@ Projectile::Projectile(bool up, bool down, bool left, bool right, int speed, Act
     this->down = down;
     this->left = left;
     this->right = right;
-    hitPoints = 1;
     this->speed = speed;
     this->origin = origin;
 }
@@ -32,10 +31,12 @@ void Projectile::update()
         position.addToX(-speed);
     if (right)
         position.addToX(speed);
+}
 
-    if (position.getX() > 1050 || position.getX() < 0 ||
-        position.getY() > 1150 || position.getY() < 0)
-        hitPoints = 0;
+bool Projectile::outOfScreen()
+{
+    return position.getX() > 1050 || position.getX() < 0 ||
+           position.getY() > 1150 || position.getY() < 0;
 }
 
 ActorType Projectile::getOrigin()

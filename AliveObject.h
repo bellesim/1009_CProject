@@ -10,6 +10,8 @@ class AliveObject : public Actor
 protected:
     Animation explosionAnimation;
     int hitPoints;
+    Status currentStatus;
+
     Projectile *shoot(Animation projectileAnim, bool up, bool down,
                       bool left, bool right, int speed, ActorType type);
     void settings(Animation &animation, Animation &explosionAnimation,
@@ -17,11 +19,11 @@ protected:
 
 private:
     int reloadCounter, currentReloadCounter;
-    // void updateAnimation(RenderWindow &);
+    virtual void updateAnimation(RenderWindow &) = 0;
 
 public:
     AliveObject();
-    // Override from Actor.
-    // void draw(RenderWindow &app);
-    // void deductHitPoint(int hit);
+    virtual void draw(RenderWindow &app) = 0;
+    Status getCurrentStatus();
+    void setCurrentStatus(Status currentStatus);
 };

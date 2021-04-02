@@ -5,8 +5,6 @@
 #include <chrono>
 #include <thread>
 
-Spaceship::Spaceship() {}
-
 void Spaceship::settings(Animation &a, Animation &l, Animation &r, Animation &e, int x, int y)
 {
     AliveObject::settings(a, e, x, y, 10, 3);

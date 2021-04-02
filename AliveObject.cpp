@@ -36,23 +36,12 @@ Projectile *AliveObject::shoot(Animation projectileAnim, bool up, bool down,
     return NULL;
 }
 
-// void AliveObject::updateAnimation(RenderWindow &app)
-// {
-// }
+Status AliveObject::getCurrentStatus()
+{
+    return currentStatus;
+}
 
-// void AliveObject::draw(RenderWindow &app)
-// {
-// }
-
-// void AliveObject::deductHitPoint(int hit)
-// {
-//     hitPoints = hitPoints - hit;
-// }
-
-// int AliveObject::getHitPoints()
-// {
-//     if (hitPoints < 0)
-//         hitPoints = 0;
-
-//     return hitPoints;
-// }
+void AliveObject::setCurrentStatus(Status currentStatus)
+{
+    this->currentStatus = currentStatus;
+}

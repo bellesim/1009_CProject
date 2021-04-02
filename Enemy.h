@@ -11,10 +11,10 @@ private:
     void updateAnimation(RenderWindow &);
 
 public:
-    Projectile *shoot(Animation projectileAnim);
-    void update();
-    void deductHitPoint(int hit);
     void settings(Animation &animation, Animation &explosionAnimation,
                   vector<Position *> positions, int x, int y);
+    Projectile *shoot(Animation projectileAnim);
+    void update();
     void draw(RenderWindow &app);
+    void deductHitPoint(int hit);
 };

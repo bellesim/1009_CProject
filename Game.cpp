@@ -90,6 +90,7 @@ void Game::run()
 
         else if (gameState == GAME_PLAY)
         {
+            printf("projectile size: %d\n", projectiles.size());
             if (spaceship->getCurrentStatus() == DEAD)
             {
                 endScore = spaceship->getScore();
@@ -156,7 +157,8 @@ void Game::run()
 
             // Draw spaceship.
             spaceship->draw(app);
-            spaceship->update();
+            if (spaceship->getCurrentStatus() != EXPLODING)
+                spaceship->update();
 
             // Draw all projectile.
             vector<Projectile *>::iterator projectileIt = projectiles.begin();
@@ -196,7 +198,7 @@ void Game::run()
                 }
 
                 // Erase projectile if projectile is outside of screen or hit enemy.
-                if (hit)
+                if (hit || (*projectileIt)->outOfScreen())
                     projectileIt = projectiles.erase(projectileIt);
                 else
                     ++projectileIt;
@@ -219,7 +221,6 @@ void Game::run()
         }
         else if (gameState == GAME_REPLAY)
         {
-            printf("ihihihih\n");
             projectiles.clear();
             enemies.clear();
             spaceship->settings(spaceshipAnim, leftSpaceshipAnim, rightSpaceshipAnim, explosionAnim,

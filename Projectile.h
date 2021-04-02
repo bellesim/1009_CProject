@@ -12,5 +12,7 @@ public:
     Projectile(bool up, bool down, bool left, bool right, int speed, ActorType origin);
     void update();
     void settings(Animation &a, Actor &actor);
+    bool outOfScreen();
+
     ActorType getOrigin();
 };
