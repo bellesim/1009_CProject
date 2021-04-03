@@ -13,7 +13,7 @@
 // WINDOWS
 // ???
 // MAC
-// g++ -std=c++11 main.cpp MainMenu.cpp GamePause.cpp GameOver.cpp Animation.cpp Position.cpp Actor.cpp AliveObject.cpp Projectile.cpp Enemy.cpp Formation.cpp Spaceship.cpp AssetManager.cpp Game.cpp -o game -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
+//  g++ -std=c++11 main.cpp MainMenu.cpp GamePause.cpp GameOver.cpp Animation.cpp Position.cpp Actor.cpp AliveObject.cpp Projectile.cpp Enemy.cpp Formation.cpp Spaceship.cpp AssetManager.cpp Game.cpp -o game -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
 Game::Game() : app(VideoMode(WIDTH, HEIGHT), "Ace Combat", Style::Default)
 {
     app.setFramerateLimit(60);
