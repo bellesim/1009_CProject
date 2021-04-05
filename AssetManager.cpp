@@ -1,4 +1,5 @@
 #include "AssetManager.h"
+#include <iostream>
 
 AssetManager::AssetManager()
 {
@@ -120,7 +121,8 @@ AssetManager::AssetManager()
 
     catch (exception e)
     {
-        // cout << "Error: Failed to load " << e.what();
+        cout << "Error: Failed to load " << e.what();
+        exit(EXIT_FAILURE);
     }
 }
 
